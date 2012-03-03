@@ -1,0 +1,17 @@
+TODO
+
+Create option dialog
+Add indentation
+Code missing language features
+Highlight code
+Drag drop/Paste in help window commands
+Help window tool tips
+Add nano-second wait timing
+Make text in the error dialog consitant with the edit dialog
+Add option to save file on each run (or perhaps make a backup)
+Be able to tab multiple lines
+
+FINISHED
+--Recode cells so they are painted by the gui rather than JLabels--
+--Fix table parsing (0 rows)--
+--Add Cut/Paste/Undo features--

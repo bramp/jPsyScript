@@ -1,0 +1,755 @@
+/**
+	The PsyScript language specification writting in JavaCC syntax
+	http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-moz.htm
+**/
+
+options {
+  STATIC=false;
+  USER_CHAR_STREAM = true;
+}
+
+PARSER_BEGIN(PsyScriptParser)
+
+package net.bramp.psyscript.parser;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import net.bramp.psyscript.*;
+import net.bramp.psyscript.objects.*;
+import net.bramp.psyscript.variables.*;
+import net.bramp.psyscript.action.*;
+import net.bramp.psyscript.action.gui.*;
+
+public class PsyScriptParser {
+
+	Program p = new Program();
+
+	private int getLine() {
+		return token.next.beginLine;
+	}
+
+	// JavaCC hack for doing lexical state transitions syntactically
+	private void SetState(int state) {
+		if (state == token_source.curLexState)
+			return;
+	  	
+		Token root = new Token(), last=root;
+		root.next = null;
+
+		// First, we build a list of tokens to push back, in backwards order
+		while (token.next != null) {
+			Token t = token;
+			// Find the token whose token.next is the last in the chain
+			while (t.next != null && t.next.next != null)
+				t = t.next;
+
+			// put it at the end of the new chain
+			last.next = t.next;
+			last = t.next;
+
+			// If there are special tokens, these go before the regular tokens,
+			// so we want to push them back onto the input stream in the order
+			// we find them along the specialToken chain.
+
+			if (t.next.specialToken != null) {
+				Token tt=t.next.specialToken;
+				while (tt != null) {
+					last.next = tt;
+					last = tt;
+					tt.next = null;
+					tt = tt.specialToken;
+				}
+			}
+			t.next = null;
+		}
+
+        if ( root.next != null ) {
+        	token_source.backup( root.next.endColumn - last.beginColumn + 1 );
+        }
+
+		//while (root.next != null) {
+		//	token_source.backup(root.next.image.length());
+		//	root.next = root.next.next;
+		//}
+		jj_ntk = -1;
+		token_source.SwitchTo(state);
+	}
+	
+}
+
+PARSER_END(PsyScriptParser)
+
+
+TOKEN_MGR_DECLS : {
+    // Required by SetState
+    void backup(int n) {
+    	input_stream.backup(n);
+    } 
+}
+
+/**********************************************
+ * THE TOKEN SPECIFICATION STARTS HERE *
+ **********************************************/
+
+/* WHITE SPACE */
+
+/*
+<IN_TABLE>
+SKIP :
+{
+  <TABLE_WHITESPACE : " " | "\t" | "\f" >
+}
+*/
+
+<DEFAULT>
+SKIP :
+{
+  <WHITESPACE : " " | "\t" | "\n" | "\r" | "\f" >
+}
+
+/* COMMENTS */
+
+<DEFAULT>
+SPECIAL_TOKEN : {
+    < SINGLE_LINE_COMMENT: "--"(~["\n","\r"])* ("\n"|"\r"|"\r\n")? >
+} 
+
+/* STRINGS */
+
+<IN_STRING_NO_INTO>
+TOKEN :
+{
+	<STRING_INTO_END : (" " | "\t")+ "into" (" " | "\t")+ > : DEFAULT
+}
+
+<IN_STRING_NO_IS>
+TOKEN :
+{
+	<STRING_IS_END : (" " | "\t")+ "is" (" " | "\t")+ > : DEFAULT
+}
+
+<IN_STRING_NO_IN>
+TOKEN :
+{
+	<STRING_IN_END : (" " | "\t")+ "in" (" " | "\t")+ > : DEFAULT
+}
+
+<IN_STRING_NO_SYMBOL>
+TOKEN :
+{
+	<STRING_SYMBOL_END : "," | ")" | "(" | "." > : DEFAULT
+}
+
+<IN_STRING_NO_SIZE>
+TOKEN :
+{
+	<STRING_SIZE_END : (" " | "\t")+ "size" (" " | "\t")+ > : DEFAULT
+}
+
+<IN_STRING_NO_AT>
+TOKEN :
+{
+	<STRING_AT_END : (" " | "\t")+ "at" (" " | "\t")+ > : DEFAULT
+}
+
+<IN_STRING_NO_WITHOUT>
+TOKEN :
+{
+	<STRING_WITHOUT_END : (" " | "\t")+ "without" (" " | "\t")+ > : DEFAULT
+}
+
+<IN_TABLE_STRING>
+TOKEN :
+{
+	<TABLE_STRING_END : "\n" | "\r" | "\r\n" | "end" "table" > : IN_TABLE
+}
+
+
+<IN_STRING, IN_STRING_NO_INTO, IN_STRING_NO_IS, IN_STRING_NO_SYMBOL, IN_STRING_NO_SIZE, IN_STRING_NO_AT, IN_STRING_NO_WITHOUT>
+TOKEN :
+{
+	<STRING_END: "\n" | "\r" | "\r\n" > : DEFAULT
+}
+
+// The catch all characters of a string
+<IN_STRING, IN_STRING_NO_INTO, IN_STRING_NO_IS, IN_STRING_NO_SYMBOL, IN_STRING_NO_SIZE, IN_TABLE_STRING>
+TOKEN :
+{
+  < STRING: ~[] >
+}
+
+<IN_INTEGER>
+TOKEN :
+{
+	<INTEGER : (["+","-"])? ["0"-"9"] (["0"-"9"])*  > : DEFAULT
+}
+
+<IN_FLOAT>
+TOKEN :
+{
+	<FLOAT : 
+		(["+","-"])? (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)?
+      | (["+","-"])? "." (["0"-"9"])+ (<EXPONENT>)?
+      | (["+","-"])? (["0"-"9"])+ (<EXPONENT>)?  > : DEFAULT
+
+|   < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+}
+
+/* KEYWORDS */
+
+<IN_TABLE>
+TOKEN :
+{
+	<	NEWLINE	:	"\n" | "\r" | "\r\n"	>
+}
+
+<DEFAULT, IN_TABLE>
+TOKEN :
+{
+	  <     END        :          "end" >
+	| < 	TABLE      :          "table" >
+	| < 	IN         :          "in" >
+    | < 	RANDOM     :          "random" >
+    | < 	ORDER      :          "order" >
+}
+
+<DEFAULT>
+TOKEN :
+{
+  < 	COMMA      :          "," >
+| <     LBRACKET   :          "(" >
+| <     RBRACKET   :          ")" >
+| < 	A          :          "a" >
+| < 	AT         :          "at" >
+| < 	ABORT      :          "abort" >
+| < 	APPEND     :          "appending" >
+| < 	BACKGROUND :          "background" >
+| < 	BUFFER     :          "buffer" >
+| < 	BY         :          "by" >
+| < 	CALL       :          "call" >
+| < 	CELL       :          "cell" >
+| < 	CELLS      :          "cells" >
+| < 	CLICK      :          "click" >
+| < 	COUNTDOWN  :          "countdown" >
+| < 	CURSOR     :          "cursor" >
+| < 	DISPLAY    :          "display" >
+| < 	DURATION   :          "duration" >
+| <     ELSE       :          "else" >
+| <     FIELD      :          "field" >
+| < 	FILE       :          "file" >
+| < 	FLUSH      :          "flush" >
+| < 	FONT       :          "font" >
+| < 	FOR        :          "for" >
+| < 	FROM       :          "from" >
+| < 	HIDE       :          "hide" >
+| < 	HTML       :          "html" >
+| < 	IF         :          "if" >
+| < 	IMAGE      :          "image" >
+| < 	IS         :          "is" >
+| < 	INTO       :          "into" >
+| <     KEY        :          "key" >
+| < 	LOAD       :          "load" >
+| < 	LOG        :          "log" >
+| < 	MOVE       :          "move" >
+| < 	MOVIE      :          "movie" >
+| < 	OF         :          "of" >
+| < 	OR         :          "or" >
+| < 	PAUSE      :          "pause" >
+| < 	PLAIN      :          "plain" >
+| < 	PLAY       :          "play" >
+| < 	PROCEDURE  :          "proc" >
+| < 	REMOVE     :          "removing" >
+| < 	RICH       :          "rich" >
+| < 	REPEAT     :          "repeat" >
+| < 	ROW        :          "row" >
+| < 	ROWS       :          "rows" >
+| < 	SECOND     :          "second" >
+| < 	SECONDS    :          "seconds" >
+| < 	SET        :          "set" >
+| < 	SHOW       :          "show" >
+| < 	SIZE       :          "size" >
+| < 	SKIP_      :          "skip" >
+| < 	SLIDER     :          "slider" >
+| < 	SOUND      :          "sound" >
+| < 	START      :          "start" >
+//| < 	TEST       :          "test" >
+| < 	TEXT       :          "text" >
+| < 	TIMER      :          "timer" >
+| < 	TO         :          "to" >
+| < 	UNTIL      :          "until" >
+| < 	USING      :          "using" >
+| < 	WAIT       :          "wait" >
+| < 	WAITING    :          "waiting" >
+| < 	WHILE      :          "while" >
+| < 	WITHSIZE   :          "with" >
+| < 	WITHOUT    :          "without" >
+}
+
+/* IDENTIFIERS */
+
+<DEFAULT>
+TOKEN :
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER: ["A"-"Z", "a"-"z"] >
+|
+  < #DIGIT:  [ "0"-"9" ] >
+}
+
+<DEFAULT, IN_TABLE>
+TOKEN :
+{
+  < CHARACTER: ~[] >
+}
+
+<DEFAULT>
+TOKEN :
+{
+  < VARIABLE: "$" <IDENTIFIER> >
+}
+
+
+/************************************************
+ * THE GRAMMAR SPECIFICATION STARTS HERE *
+ ************************************************/
+
+Program PsyScript() : 
+{
+	Procedure proc;
+	Table table;
+}
+{
+	(	(proc=Procedure()
+			{p.add(proc);}
+		)
+	|	(table=Table()
+			{p.add(table);}
+		)
+	)+
+
+	{ return p; }
+}
+
+Table Table() :
+{
+	final List<String> rows;
+	final String name;
+	boolean randomise = false;
+}
+{
+	"table" name=Identifier() ("in" "random" "order" {randomise = true;})?
+	{ SetState( IN_TABLE ); }
+		rows=TableRows()
+	{ SetState( DEFAULT ); }
+	"end" "table"
+
+	{ return new Table(name, rows, randomise); }
+}
+
+List<String> TableRows() :
+{
+	final List<String> rows = new ArrayList<String>();
+	String s;
+}
+{
+	(s=TableRow()
+		// TODO don't do the comment check here
+		{ if ( s.length() > 0 && !s.startsWith("--") ) rows.add(s); }
+	|<NEWLINE>
+	)*
+	{
+		return rows;
+	}
+}
+
+String TableRow() :
+{ 
+	String s;
+	final StringBuffer buf = new StringBuffer();
+}
+{
+	( (s=<STRING>.image {buf.append(s);} )+ ( <TABLE_STRING_END> )
+		{ s = buf.toString(); }
+	// If this is a character or an identifier, backup and rematch it as a string
+	| s=<CHARACTER>.image {token_source.backup(s.length());} s=String(IN_TABLE_STRING)
+	)
+	{return s.trim();}
+}
+
+Procedure Procedure() :
+{
+	final String name;
+	final List<Action> commands;
+	final int line = getLine();
+}
+{
+  "proc" name=Identifier() commands=Commands() "end" "proc"
+  { return new Procedure(p, line, name, commands); }
+}
+
+List<Action> Commands() :
+{final List<Action> commands = new ArrayList<Action>();
+ Action c;
+}
+{
+	(c=Command()
+	{commands.add(c);})*
+	{ return commands; }
+}
+
+Action Command() :
+{
+	RGB colour;
+	Variable v1;
+	List<Variable> vs;
+	List<Action> commands1, commands2 = null;
+	Expression e1=null, e2=null, e3=null;
+	Condition c1;
+	Cells cells;
+	Coordinate cord1, cord2 = null;
+	ScreenObject o1;
+	int line = getLine();
+}
+{
+	"abort"
+	{ return new AbortAction(p, line); }
+
+  |	"background" colour=Colour() 
+  	{ return new BackgroundAction(p, line, colour); }
+
+  | "call" e1=IdentifierExpression()
+	{ return new CallAction(p, line, e1); }
+
+  | {String textType = null;}
+  	"display" ("plain" {textType="text/plain";} | "rich" {textType="text/rtf";} | "html" {textType="text/html";} )? "text" "from" "file" e1=StringExpression(IN_STRING)
+  	//"display" ("plain" {textType="text/plain";} | "rich" {textType="text/rtf";} | "html" {textType="text/html";} )? "text" "from" "file" String(IN_STRING)
+	{ return new DisplayTextAction(p, line, e1, textType); }
+
+  | "flush" "key" "buffer"
+	{ return new FlushAction(p, line); }
+
+  | "hide" o1=ScreenObject()
+	{ return new HideAction(p, line, o1); }
+
+  | "if" c1=Condition() commands1=Commands()
+  	{ IfAction ifAction = new IfAction(p, line, c1, commands1); final IfAction firstIf = ifAction; }
+  		( "else" ( LOOKAHEAD( "if" ) { line = getLine(); }"if" c1=Condition() commands2=Commands()
+				{ IfAction ifAction2 = new IfAction (p, line, c1, commands2 );
+				  ifAction.addElse( ifAction2 );
+				  ifAction = ifAction2;
+				}
+  			   |commands2=Commands()
+ 				{ ifAction.addElse( commands2 ); }
+  			)
+		)*
+  	"end" "if"
+	{ return firstIf; }
+
+  | "show" o1=ScreenObject()
+  	{ return new ShowAction(p, line, o1); }
+
+  | "load" "image" e1=StringExpression(IN_STRING_NO_INTO) ("into")? cells=Cells()
+    { return new LoadImageAction(p, line, e1, cells); }
+
+  | "log" e1=StringExpression(IN_STRING)
+  	{ return new LogAction(p, line, e1); }
+
+  | "move" o1=ScreenObject() "to" cord1=Coordinate() ("with" "size" cord2=Coordinate())?
+     { return new MoveAction(p, line, o1, cord1, cord2); }
+
+  | "pause" "for" e1 = FloatExpression() ("second"|"seconds")
+     { return new WaitForAction(p, line, e1); }
+
+  | "play" (
+  			 "movie" e1=StringExpression(IN_STRING_NO_AT) "at" cord1=Coordinate() ("with" "size" cord2=Coordinate())? ("without" "waiting")?
+				{ throw new NotImplementedException("movie is not implemented yet!"); }
+
+  		   | "sound" e1=StringExpression(IN_STRING_NO_WITHOUT) ("without" "waiting")?
+				{ throw new NotImplementedException("sound is not implemented yet!"); }
+  		   )
+
+  |	"set" ( 
+		LOOKAHEAD(Variable() ("by"|"to")) v1=Variable() (
+			"by" ( "appending" e1=StringExpression(IN_STRING)
+  					{ return new AppendAction(p, line, v1, e1); }
+				 | "removing" e1=StringExpression(IN_STRING)
+					{ return new RemoveAction(p, line, v1, e1); }
+				 )
+  	  	  | "to" 
+  	  			( e1=Expression(IN_STRING)
+					{ return new SetAction(p, line, v1, e1); }
+				| "duration" "of" "movie" e1=StringExpression(IN_STRING)
+					{ throw new RuntimeException("Duration of is not implemented yet!"); }
+				)
+		)
+
+	  | "slider" "to" e1=FloatExpression() ("of" e2=FloatExpression() "to" e3=FloatExpression())?
+			{ return new SetSliderAction(p, line, p.getSlider(), e1, e2, e3); }
+
+	  | "text" "field" "to" e1=StringExpression(IN_STRING)
+			{ return new SetTextAction(p, line, p.getTextField(), e1); }
+
+	  | cells=Cells()
+	  		( "to" e1=StringExpression(IN_STRING) 
+				{ return new SetCellAction(p, line, cells, e1); }
+			| "font" ("to")? e1=StringExpression(IN_STRING_NO_SIZE) ("size" e2=IntExpression())?
+				{ return new SetCellFontAction(p, line, cells, e1, e2 ); }
+			)
+
+  	)
+  | "skip" e1=StringExpression(IN_STRING)
+		{ throw new NotImplementedException("skip is not implemented yet!"); }
+
+  | "start" 
+		( "countdown" "from" e1=FloatExpression() ("second"|"seconds")
+			{ return new StartCountdownAction(p, line, p.getVariable("$countdownStart"), p.getVariable("$countdownDuration"), e1); }
+		| "timer"
+			{ return new StartTimerAction(p, line, p.getVariable("$timerStart")); }
+		)
+
+//	| "test"
+
+  | "repeat" 
+		( "while" c1=Condition() commands1=Commands() "end" "repeat"
+			{ return new RepeatWhileAction(p, line, c1, commands1); }
+
+		| "until" c1=Condition() commands1=Commands() "end" "repeat"
+			{ return new RepeatUntilAction(p, line, c1, commands1); }
+
+		| "using" vs=Variables() "from" ( LOOKAHEAD(IntExpression() ["row"|"rows"] ) e1=IntExpression() ("row"|"rows") "of" )? e2=IdentifierExpression() commands1=Commands() "end" "repeat"
+			{ 
+				if ( e1 == null )
+					return new RepeatUsingTableAction(p, line, e2, vs, commands1);
+				else
+					return new RepeatUsingTableAction(p, line, e2, e1, vs, commands1);
+			}
+		)
+
+  | "wait" "for"
+		{ final WaitForAction wait = new WaitForAction(p, line); }
+		( (e1=FloatExpression() ("second"|"seconds") ) { wait.setDuration(e1); }
+			("or" "a" ClickOrKey(wait) )?
+		| "a" ClickOrKey(wait)
+		)
+		{ return wait; }
+}
+
+void ClickOrKey(final WaitForAction wait) :
+{
+	Cells cells;
+	Expression e;	
+}
+{
+	( "click" { ClickEvent event1 = new ClickEvent(p.getVariable("$lastClick"), p.getVariable("$lastClickTime")); } 
+		("in" (cells = Cells() {event1.setFilter(cells);}) )?
+			{ wait.setEvent( event1 ); }
+	
+	| "key" { KeyEvent event2 = new KeyEvent(p.getVariable("$lastKey"), p.getVariable("$lastKeyTime")); } 
+		("in" e=StringExpression(IN_STRING) {event2.setFilter(e);} )?
+			{ wait.setEvent( event2 ); }
+	)
+}
+
+Condition Condition() :
+{
+	final Expression e1, e2;
+}
+{
+	e1=StringExpression(IN_STRING_NO_IS) ("is")?
+
+	(  e2=StringExpression(IN_STRING)
+		{return new ConditionIs(e1, e2);}
+	| "in" e2=StringExpression(IN_STRING)
+		{return new ConditionIsIn(e1, e2);}
+	)
+}
+
+RGB Colour() :
+{
+	final Expression e1, e2, e3;
+}
+{
+	( "(" e1=FloatExpression() "," e2=FloatExpression() "," e3=FloatExpression() ")"
+		{ return new RGB(e1, e2, e3); }
+	| e1=StringExpression(IN_STRING)
+		{ return new RGB(e1); }
+	)
+}
+
+Coordinate Coordinate() :
+{final Expression e1, e2;}
+{
+	"(" e1=FloatExpression() "," e2=FloatExpression() ")"
+	{ return new Coordinate(e1, e2); }
+}
+
+String String(int type) :
+{ 
+	String s;
+	Token t;
+	final StringBuffer buf = new StringBuffer();
+
+	SetState(type);
+}
+{
+	( (s=<STRING>.image {buf.append(s);} )+ 
+	( <STRING_END> | <STRING_INTO_END> | <STRING_IS_END> | <STRING_SYMBOL_END> | <STRING_SIZE_END> | <STRING_AT_END> | <STRING_WITHOUT_END> | <TABLE_STRING_END> )
+		{ s = buf.toString(); }
+
+	// If this is a character or an identifier, backup and rematch it as a string
+	| s=<CHARACTER>.image {token_source.backup(s.length());} s=String(type)
+	| s=Identifier() {token_source.backup(s.length());} s=String(type)
+
+	| <STRING_END> { s=""; }
+	)
+
+	{return s;}
+}
+
+String IntString(int type) :
+{ 
+	String s;
+	final StringBuffer buf = new StringBuffer();
+	
+	assert type == IN_FLOAT || type == IN_INTEGER;
+
+	SetState(type);
+}
+{
+	( s=<INTEGER>.image
+	| s=<FLOAT>.image
+	| s=<CHARACTER>.image {token_source.backup(s.length()); s=IntString(type); }
+	| <STRING_END> { s=""; }
+	)
+
+	{return s;}
+}
+
+Expression Expression(int str_type) :
+{
+	final Variable v;
+	final String s;
+}
+{
+	v=Variable()
+		{ return new VariableExpression(v); }
+
+	| s=String(str_type)
+		{ return Expression.createExpression( s ); }
+}
+
+Expression IdentifierExpression() : 
+{
+	final Variable v;
+	final String s;
+}
+{
+	v=Variable()
+		{ return new VariableExpression(v); }
+
+	| s=Identifier()
+		{ return new StringExpression( s ); }
+}
+
+Expression StringExpression(int str_type) :
+{
+	final Variable v;
+	final String s;
+}
+{
+	v=Variable()
+		{return new VariableExpression(v);}
+
+	| s=String(str_type)
+		{return new StringExpression(s);}
+}
+
+Expression FloatExpression() :
+{
+	final Variable v;
+	final String s;
+}
+{
+	  v=Variable()
+		{return new VariableExpression(v); }
+
+	| s=IntString(IN_FLOAT)
+		{ return new FloatExpression(s); }
+}
+
+Expression IntExpression() :
+{
+	final Variable v;
+	final String s;
+}
+{
+	  v=Variable()
+		{return new VariableExpression(v); }
+
+	| s=IntString(IN_INTEGER)
+		{return new IntExpression(s); }
+}
+
+List<Variable> Variables() :
+{
+	final List<Variable> vs = new ArrayList<Variable>();
+	Variable v;
+}
+{
+	v=Variable() { vs.add(v); }
+	("," v=Variable() { vs.add(v); }
+	)*
+	{ return vs; }
+}
+
+Variable Variable() :
+{
+	final String s;
+}
+{
+	s=<VARIABLE>.image
+	{ return p.getVariable(s); }
+}
+
+String Identifier() :
+{
+	final String s;
+}
+{
+	s=<IDENTIFIER>.image
+	{ return s; }
+}
+
+ScreenObject ScreenObject() :
+{
+	final Cell c;
+	final Cells cs;
+}
+{
+	cs = Cells()
+		{ return cs; }
+	| "cursor"
+		{ return p.getCursor(); }
+	| "slider"
+		{ return p.getSlider(); }
+	| "text" "field"
+		{ return p.getTextField(); }	
+}
+
+Cells Cells() :
+{
+	final String s;
+	final Variable v;
+}
+{
+
+    LOOKAHEAD( ("cell" | "cells" ) Variable() )  
+    ("cell" | "cells" ) v=Variable()
+	  	{ return new Cells(p, v); }
+	|
+	("cell" | "cells" )? s=Identifier() 
+		{ return new Cells(p, s); }
+
+}
