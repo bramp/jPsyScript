@@ -1,0 +1,11 @@
+Thank you for participating in this experiment.
+
+You'll spend most of this experiment looking at a dark cave.  Occasionally you'll see and hear evidence that there are animals in the cave.  After you hear each sound please press one of three keys:
+
+     q -- very scary
+     a -- medium scary
+     z -- not too scary
+
+You'll see these are in a line on the keyboard: most extreme at the top, least extreme at the bottom.
+
+When you're ready to begin, click the 'OK' button to start the experiment.

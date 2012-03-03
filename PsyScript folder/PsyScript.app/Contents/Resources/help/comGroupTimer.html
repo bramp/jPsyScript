@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: the timers</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: the timers</H1>
+
+<P>PsyScript provides a number of timers to allow the subject's actions to be timed.  This page is about the two manually-controlled timers: one which counts upwards, the <CODE>timer</CODE>, and the other which counts down, the <CODE>countdown timer</CODE>.</P>
+
+<P>For most purposes, you'll never need to use the manual timers: you normally use the timers built into the <CODE>wait for a key</CODE> and <CODE>wait for a click</CODE> commands.  Those are started automatically.  However, these two timers which exist for situations where you need to measure or control the time for digital input or the <EM>cumulative</EM> time for multiple responses.</P>
+
+<P>The (counting upwards) timer involves only two commands: <CODE>start timer</CODE> and <CODE>log $timer</CODE>.</P>
+
+<P>The countdown timer involves only two commands: <CODE>start countdown from ? seconds</CODE> and <CODE>log $countdown</CODE>.</P>
+
+<P>Once the countdown timer reaches zero the <CODE>$countdown</CODE> variable has a value of <CODE>expired</CODE>.  It never has a negative value.  You can easily tell whether the countdown time is up by just testing <CODE>$countdown</CODE> for that particular text.</P>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+<TD colspan="3" width="10%"><B>start timer</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2">Sets the manual timer back to zero.  It immediately starts counting up.</TD>
+</TR></TABLE>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+<TD colspan="3" width="10%"><B>start countdown from </B>number<B> second[s]</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2">Sets the countdown timer to that time.  It immediately starts counting down.</TD>
+</TR></TABLE>
+
+<H3>Technical notes</H3>
+
+<P>PsyScript counts time in seconds.</P>
+
+<P>The timers do not introduce background counting processes (which would lead to imprecise timings).  The commands which start them note the time they were started, and the <CODE>log</CODE> commands do the maths to find out what the current value should be.</P>
+
+<P>The result of <CODE>$timer</CODE> or <CODE>$countdown</CODE> tends to look something like <CODE>7.374656573</CODE>: the precision of the result far exceeds the accuracy of the measurement.  However, I cannot determine the accuracy of the measurement for your combination of hardware and software.  If the accuracy of your timing data is important to your experiment, run some experiments on your particular setup to measure the accuracy of the resulting data using hardware designed for the task such as a millisecond timer.</P>
+
+<P>You can use the sequence of commands
+
+<PRE>      start timer
+      log $timer
+      log $timer
+	  
+	  ... do some commands ...
+	  
+      log $timer
+      log $return</PRE>
+	  
+to tell you how quickly your computer executes a series of commands.  Even using <CODE>pause for 1 second</CODE> as the command yields interesting information about the overhead needed to execute one command line.  If you're expecially worried about timing pay particular attention to the first figure, and to the difference between the first two figures: these are the amounts of time it takes to execute the <CODE>start timer</CODE> and <CODE>log $timer</CODE> commands.</P>
+
+<P>These timers are as accurate as I can make them: they use the <CODE>timeIntervalSinceReferenceDate</CODE> system call which gets at a very low level of the computer's ability to reckon time.  Nevertheless, this still uses only the time as reckoned by the clock chip in your computer and this chip is not as accurate as the ones built into custom-designed time-measuring devices such as watches.</P>
+
+</H3>See also</H3>
+<BR>
+<UL><LI><A HREF="comGroupLog.html">the <CODE>log</CODE> command</A>
+<LI><A HREF="comGroupWait.html">waiting for some time, a click or a key</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

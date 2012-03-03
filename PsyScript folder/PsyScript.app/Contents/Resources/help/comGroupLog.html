@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: log</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: log</H1>
+<P>It's pretty pointless running an experiment if you don't take notes about what happened.  That's what the <CODE>log</CODE> command is for.  The format of the command is simple:</P>
+
+<PRE bgcolor="#ffffff">        log &lt;value&gt;</PRE>
+
+<P>There are a number of different things you can log, but they split up neatly into three groups:</P>
+
+<TABLE align="center" cellspacing="10"><TR>
+<TH>special use</TH><TH>entered by experimenter</TH><TH>result of commands</TH>
+</TR><TR>
+<TD valign="top">fixed text<BR>$return<BR>$dateStamp<BR>$timeStamp<BR>$space<BR>$blank</TD>
+<TD valign="top">$experiment<BR>$subject<BR>$comments</TD>
+<TD valign="top">$lastClick<BR>$lastClickTime<BR>$lastKey<BR>$lastKeyTime<BR>$timer<BR>$countdown<BR>$slider<BR>$textField<BR>$varX</TD>
+</TR></TABLE>
+
+<TABLE bgcolor="#ffffff" align="center"><TR>
+<TH rowspan="6" valign="top">special use</TH>
+<TD>fixed text</TD><TD>(anything that doesn't start with a '$') that text.</TD>
+</TR><TR>
+<TD>$return</TD><TD>Starts a new row of the log.</TD>
+</TR><TR>
+<TD>$dateStamp</TD><TD>The current date in text form.</TD>
+</TR><TR>
+<TD>$timeStamp</TD><TD>The current time in text form.</TD>
+</TR><TR>
+<TD>$space</TD><TD>One 'space' character.</TD>
+</TR><TR>
+<TD>$blank</TD><TD>Nothing.  (Useful for the <CODE>set</CODE> command or to leave a blank column in the log.)</TD>
+</TR><TR>
+<TH>&nbsp;</TH>
+</TR><TR>
+<TH rowspan="3" valign="top">entered by<BR>experimenter</TH><TD>$experiment</TD><TD>Name of, or code for, the experiment.  Entered by experimenter just before log is saved into a file.</TD>
+</TR><TR>
+<TD>$subject</TD><TD>Name of, or code for, the subject.  Entered by experimenter just before log is saved into a file.</TD>
+</TR><TR>
+<TD>$comments</TD><TD>Comments on this run of the experiment.  Entered by experimenter just before log is saved into a file.</TD>
+</TR><TR>
+<TH>&nbsp;</TH>
+</TR><TR>
+<TH rowspan="9" valign="top">result of<BR>commands</TH><TD>$lastClick</TD><TD>The name of the cell <CODE>wait for a click</CODE> accepted a click in last time it was used.</TD>
+</TR><TR>
+<TD>$lastClickTime</TD><TD>The number of seconds <CODE>wait for a click</CODE> waited for last time it was used.</TD>
+</TR><TR>
+<TD>$lastKey</TD><TD>The key <CODE>wait for a key</CODE> accepted last time it was used.</TD>
+</TR><TR>
+<TD>$lastKeyTime</TD><TD>The number of seconds <CODE>wait for a key</CODE> waited for last time it was used.</TD>
+</TR><TR>
+<TD>$timer</TD><TD>The number of seconds since the <CODE>reset timer</CODE> command was used.</TD>
+</TR><TR>
+<TD>$countdown</TD><TD>The number of seconds until the countdown timer expires, or 'expired' if it has already expired.</TD>
+</TR><TR>
+<TD>$slider</TD><TD>The current setting of the slider.</TD>
+</TR><TR>
+<TD>$textField</TD><TD>The current contents of the text field.</TD>
+</TR><TR>
+<TD>$var&lt;letter&gt;</TD><TD>The value of that variable.</TD>
+</TR><TR>
+</TR></TABLE>
+
+<P>Although PsyScript doesn't enforce this, it's customary to lay out the log in a number of rows of equal length.  This is especially useful if you expect to read the log file directly into a statistics program such as SPSS.
+
+<H3>Sample</H3>
+
+<PRE bgcolor="#ffffff">      proc main
+<BR>        log $experiment
+<BR>        log $subject
+<BR>        log $return
+<BR>
+<BR>        wait for a key
+<BR>        log $lastKey
+<BR>        log $lastKeyTime
+<BR>        log $return
+<BR>      end proc</PRE>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>log </B>value</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">If &lt;value&gt; is '$return' then a new row in the log file is started.  Otherwise the value specified is put in the next column of the current row of the log file.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>log $slider<BR>
+log The subject never clicked on any target.<BR>
+log $return</TD>
+</TR></TABLE>
+<BR>
+
+<H3>Technical notes</H3>
+
+<P>You can change the row and column separators and the default extension for the script using the application's 'Preferences' menu item.</P>
+
+</H3>See also</H3>
+<BR><UL>
+<LI><A HREF="comGroupSet.html">setting variables</A>
+<LI><A HREF="comGroupWait.html">waiting for some time, a click or a key</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

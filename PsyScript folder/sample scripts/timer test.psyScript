@@ -1,0 +1,26 @@
+-- PsyScript script format 1.0
+
+proc main
+  repeat using $varA from times
+    log $varA
+    call timeAndLog
+--    call timeAndLog
+--    call timeAndLog
+    log $return
+  end repeat
+end proc
+
+proc timeAndLog
+  start timer
+  pause for $varA seconds
+  log $timer
+end proc
+
+table times
+  0
+  1
+  2
+  3
+  4
+  5
+end table

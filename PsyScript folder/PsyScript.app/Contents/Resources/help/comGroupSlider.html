@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: the slider</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: the slider</H1>
+<P>The slider looks like this:</P>
+
+<DIV align="center"><IMG ALT="picture of slider" SRC="images/slider.png"></DIV>
+
+<P>It allows the user to select a value from a continuous scale.  If the slider is being shown while the script is waiting for something, the user can adjust it any number of times.  The slider is always oriented horizontally.  You can label positions along the slider by positioning an image immediately above or below it.</P>
+<P>The slider starts off in an unknown position, with an unknown setting, with an unknown minumum and maximum, and hidden.  Consequently it's a good idea to use the 'move slider' and 'set slider' commands before you use the 'show slider' command for the first time.</P>
+<P>To read the current setting of the slider use the '$slider' variable.  You can read the current setting of the slider even while the slider is hidden.</P>
+<P>One way to use the slider is like this:</P>
+
+<PRE bgcolor="#ffffff">      -- set up the 'OK' button
+<BR>      load an OKButtonImage.png into cell A
+<BR>      move cell A to (180,-150)
+<BR>      show cell A
+<BR>
+<BR>      -- set up the slider
+<BR>      move slider to (0,-150) with size (300,30)
+<BR>      set slider to 50 from 0 to 100
+<BR>      show slider
+<BR>
+<BR>      -- wait for a response and log it
+<BR>      wait for a click in A
+<BR>      log $slider
+<BR>      log $lastClickTime
+<BR>
+<BR>      -- remove the clutter from the display
+<BR>      hide cell A
+<BR>      hide slider
+</PRE>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>move slider to (</B>x-pos<B>,</B>y-pos<B>) with size (</B>x-size<B>,</B>y-size<B>)</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">x-pos,y-pos -- position in pixels,of middle of the slider relative to the middle of the window<BR>
+x-size,y-size -- size of the slider in pixels</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Positions the slider in the window.  When a script starts running, the slider could be positioned anywhere so it's a good idea to use this command before you first use 'show slider'.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>move slider to (0,-150) with size (300,30)</TD>
+
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TD colspan="3"><B>set slider to </B>value<B> [from </B>minimum<B> to </B>maximum<B>]</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">value -- the starting (default) position of the thumb<BR>
+minimum -- the value corresponding to the left end of the scale<BR>
+maximum -- the value corresponding to the right end of the scale</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Changes the current setting of the slider.  This command comes in two forms -- with and without the 'minimum' and 'maximum' parameters.  When a script starts running, the scale could represent any range of values so you're recommended to use the longer form before the first time you need to show the slider.  If you use the other form later in your script, your previous settings for 'minimum' and 'maximum' will remain unchanged.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>set slider to $varP from 1 to 7<BR>
+set slider to 50</TD>
+
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TD colspan="3" width="10%"><B>show slider</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2">Makes the slider visible.  Does not change its position or current setting.<BR>
+<BR>
+If you don't use 'move slider' before using this command the slider may be in a strange position, even somewhere offscreen where you can't see it.<BR>
+<BR>
+If you don't use the longer form of 'set slider' before using this command the results you get from reading the slider position will be on an unpredictable scale.</TD>
+
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TD colspan="3" width="10%"><B>hide slider</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2">Makes the slider invisible.  Does not change its position or current setting.</TD>
+</TR>
+</TABLE>
+
+<BR>
+<H3>See also</H3>
+<UL><LI>log $slider
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

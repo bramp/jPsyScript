@@ -1,0 +1,179 @@
+-- demonstration of several aspects of PsyScript including
+--     moving cell while it's showing, not hidden
+--     moving a cell to coordinates in variables
+--     doing something until the subject hits a 'stop' button
+proc main
+
+  -- we're going to use cell Z to display the fly
+  load image dragonfly.png into cell Z
+
+  -- these calls will hold the images for the difference speed settings
+  move cell A to (-220,-150)
+  load image A.png into cell A
+  move cell B to (-110,-150)
+  load image B.png into cell B
+  move cell C to (0,-150)
+  load image C.png into cell C
+  move cell D to (110,-150)
+  load image D.png into cell D
+  move cell E to (220,-150)
+  load image E.png into cell E
+  move cell F to (330,-150)
+  load image stop button.png into cell F
+  
+  -- the 'F' button is the one which says 'stop'
+  call getSpeedButton
+  repeat until $lastClick is F
+    
+    call buttonToSpeed
+    
+    move cell Z to (250,0)
+    show cell Z
+    pause for 1 second
+    repeat using $varX,$varY from coordinates
+      move cell Z to ($varX,$varY)
+      -- the next line forces PsyScript to update the screen
+      pause for $varS seconds
+    end repeat
+    pause for 1 second
+    hide cell Z
+    
+    call getSpeedButton
+  end repeat
+end proc
+
+proc getSpeedButton
+  show cell A
+  show cell B
+  show cell C
+  show cell D
+  show cell E
+  show cell F
+  
+  wait for a click in ABCDEF
+  
+  hide cell A
+  hide cell B
+  hide cell C
+  hide cell D
+  hide cell E
+  hide cell F
+end proc
+
+proc buttonToSpeed
+  if $lastClick is A
+    set $varS to 0
+   else if $lastClick is B
+    set $varS to .05
+   else if $lastClick is C
+    set $varS to .1
+   else if $lastClick is D
+    set $varS to .15
+   else if $lastClick is E
+    set $varS to .2
+  end if
+end proc
+
+table coordinates
+  250,0
+  245,1
+  240,2
+  235,3
+  230,4
+  225,5
+  220,6
+  215,7
+  210,8
+  205,9
+  200,10
+  195,11
+  190,12
+  185,13
+  180,14
+  175,15
+  170,16
+  165,17
+  160,18
+  155,19
+  150,20
+  145,21
+  140,22
+  135,23
+  130,24
+  125,25
+  120,26
+  115,27
+  110,28
+  105,29
+  100,30
+  95,31
+  90,32
+  85,33
+  80,34
+  75,35
+  70,36
+  65,37
+  60,38
+  55,39
+  50,40
+  45,41
+  40,42
+  35,43
+  30,44
+  25,45
+  20,46
+  15,47
+  10,48
+  5,49
+  0,50
+  -5,51
+  -10,52
+  -15,53
+  -20,54
+  -25,55
+  -30,56
+  -35,57
+  -40,58
+  -45,59
+  -50,60
+  -55,61
+  -60,62
+  -65,63
+  -70,64
+  -75,65
+  -80,66
+  -85,67
+  -90,68
+  -95,69
+  -100,70
+  -105,71
+  -110,72
+  -115,73
+  -120,74
+  -125,75
+  -130,76
+  -135,77
+  -140,78
+  -145,79
+  -150,80
+  -155,81
+  -160,82
+  -165,83
+  -170,84
+  -175,85
+  -180,86
+  -185,87
+  -190,88
+  -195,89
+  -200,90
+  -205,91
+  -210,92
+  -215,93
+  -220,94
+  -225,95
+  -230,96
+  -235,97
+  -240,98
+  -245,99
+  -250,100
+end table

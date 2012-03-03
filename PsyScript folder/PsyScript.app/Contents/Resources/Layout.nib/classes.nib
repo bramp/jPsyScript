@@ -1,0 +1,42 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = LayoutCell; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {theWinController = LayoutWinController; }; 
+            SUPERCLASS = NSImageView; 
+        }, 
+        {
+            ACTIONS = {
+                buttonDelete = id; 
+                buttonInsert = id; 
+                buttonInsertAll = id; 
+                buttonMore = id; 
+                cellMoved = id; 
+            }; 
+            CLASS = LayoutWinController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                boxHorizLine = NSBox; 
+                boxVertLine = NSBox; 
+                buttonDelete = NSButton; 
+                buttonInsert = NSButton; 
+                buttonInsertAll = NSButton; 
+                buttonMore = NSButton; 
+                textFieldName = NSTextField; 
+                textFieldXPos = NSTextField; 
+                textFieldYPos = NSTextField; 
+                theWindow = NSWindow; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = LayoutWindow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {theController = LayoutWinController; }; 
+            SUPERCLASS = NSWindow; 
+        }
+    ); 
+    IBVersion = 1; 
+}

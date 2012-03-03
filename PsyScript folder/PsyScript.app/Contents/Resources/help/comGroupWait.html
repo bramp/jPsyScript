@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: wait</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: wait</H1>
+<P>There are five commands which wait for things to happen:</P>
+<PRE bgcolor="#ffffff">        pause for &lt;number&gt; second[s]
+<BR>	
+<BR>	wait for a click [in &lt;cell list&gt;]
+<BR>	
+<BR>	wait for a key [in &lt;key list&gt;]
+<BR>	
+<BR>	wait for &lt;number&gt; second[s] or a click [in &lt;cell list&gt;]
+<BR>	
+<BR>	wait for &lt;number&gt; second[s] or a key [in &lt;key list&gt;]</PRE>
+
+<P>The first one doesn't require the subject to do anything: it just pauses for a fixed amount of time.  The others are used when you need to find out what the subject thinks of your stimuli.</P>
+
+<P>There's one command which you might want to use just before a <CODE>wait for a key</CODE> command:</P>
+<PRE bgcolor="#ffffff">        flush key buffer</PRE>
+<P>This is useful if you think your subject might have pressed keys in the time before your <CODE>wait for a key</CODE> command and you're sure you don't want to consider them as responses.</P>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>pause for </B>number<B> second[s]</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"><P>Causes the application to pause for that many seconds before proceeding to the next line of your script.  There's no distinction between <CODE>second</CODE> and <CODE>seconds</CODE> &mdash; both are allowed because English is funny that way.</P>
+
+<P>The word <CODE>wait</CODE> may be used instead of <CODE>pause</CODE>.  This was a previous form of the command and may eventually disappear.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>pause for $varT seconds<BR>
+pause for 1.625 seconds<BR>
+pause for 1 second</TD>
+</TR></TABLE>
+
+<BR>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>wait for a click [in </B>cell list<B>]</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"><P>Waits for the subject to click the mouse button.  If a list of cells was supplied, ignores clicks in all other cells.  If a list of cells was not supplied, stops when it notices a click in any cell.  Whether a list of cells was provided or not, ignores clicks anywhere except in a cell.</P>
+<P>Sets the variable <CODE>$lastClick</CODE> to the cell which was clicked and the variable <CODE>$lastClickTime</CODE> to the number of seconds that passed between the command beginning and the click being noticed.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>wait for a click in ACF<BR>
+wait for a click in O<BR>
+wait for a click<BR>
+wait for a click in $varC</TD>
+</TR></TABLE>
+
+<BR>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>wait for a key [in </B>key list<B>]</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"><P>Waits for the subject to press a key on the keyboard.  If a list of keys was supplied, ignores all other keys.  If a list of keys was not supplied, stops for any alphabetic or numeric key or the space key.</P>
+<P>Sets the variable <CODE>$lastKey</CODE> to the key which was pressed and the variable <CODE>$lastKeyTime</CODE> to the number of seconds that passed between the command beginning and the key being noticed.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>wait for a key in zxc<BR>
+wait for a key in q<BR>
+wait for a key<BR>
+wait for a key in $varK</TD>
+</TR></TABLE>
+<BR>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR><TD colspan="3" width="10%"><B>wait for </B>number<B> second[s] or a click [in </B>cell list<B>]</B></TD></TR>
+<TR><TD width="10%"></TD><TD colspan="2"><P>A combination of the two appropriate options described above.
+Whichever one happens first 'wins'.</P>
+<P>If the command was finished by the time expiring <CODE>$lastClick</CODE> is set to the seven characters 'timeout'.
+Either way <CODE>$lastClickTime</CODE> is set to the amount of time the command lasted.
+If the command ends with a timeout, that might not be exactly equal to the amount of time you supplied.</P></TD></TR>
+</TABLE>
+<BR>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR><TD colspan="3" width="10%"><B>wait for </B>number<B> second[s] or a key [in </B>key list<B>]</B></TD></TR>
+<TR><TD width="10%"></TD><TD colspan="2"><P>A combination of the two appropriate options described above.
+Whichever one happens first 'wins'.</P>
+<P>If the command was finished by the time expiring <CODE>$lastKey</CODE> is set to the seven characters 'timeout'.
+Either way <CODE>$lastKeyTime</CODE> is set to the amount of time the command lasted.
+If the command ends with a timeout, that might not be exactly equal to the amount of time you supplied.</P></TD></TR>
+</TABLE>
+<BR>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>flush key buffer</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Tells the application to discard any unprocessed keypresses.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>flush key buffer</TD>
+</TR></TABLE>
+
+<BR>
+
+<BR>
+
+<H3>Technical notes</H3>
+
+<P>For the command that waits for a fixed amount of time, you can use the alternative syntax <CODE>pause for</CODE> instead of <CODE>wait for</CODE>.</P>
+<P>There's no equivalent to <CODE>flush key buffer</CODE> for mouse clicks.  If you're concerned about how it would work, test out the results of early clicking on your own script.</P>
+<P>All pause &amp; wait commands will cause the runtime window to be updated before they execute.  The display window will be updated at other times, of course, but it's done on an unpredictable schedule which depends on how fast various components of your computer work.  The <CODE>wait</CODE> commands <EM>always</EM> do it.</P>
+<P>The <CODE>pause for &lt;number&gt; seconds</CODE> form has a theoretical resolution of 1 microsecond &mdash; so <CODE>pause for 14.222222 seconds</CODE> should do something different to <CODE>pause for 14.222223 seconds</CODE>.  It's not actually accurate to 1 microsecond, through, since the application will take far longer than a microsecond to read the amount of time and instruct your operating system to sleep for that long (about 5 milliseconds on the iMac I'm writing this on).  Run tests if you really care how long it takes.  It uses <CODE>usleep(3)</CODE> so if you want to know implementation details use <CODE>man 3 usleep</CODE>.</P>
+<P><CODE>wait for a key</CODE> is equivalent to <CODE>wait for a key in abcdefghijklmnopqrstuvwxyz 1234567890</CODE>.  If you need to detect punctuation keys you must supply a list of characters which includes the punctuation keys you care about.</P>
+<P>The timers built into <CODE>wait for a click</CODE> and <CODE>wait for a key</CODE> are designed to be as accurate as possible: they are started as soon as possible after the command has begun and stop as soon as possible after any response is noticed.  However, their accuracy depends on your hardware.  If the accuracy of your timing data is important to your experiment, run some experiments on your particular hardware to measure the accuracy of the resulting data using hardware designed for the task such as a millisecond timer.</P>
+
+</H3>See also</H3>
+<BR><UL>
+<LI><A HREF="comGroupTimer.html">the timer</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

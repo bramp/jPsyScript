@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Notes: on the nature of randomness</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Notes: on the nature of randomness</H1>
+
+<P>Randomness is too important to be left to chance.  This page discusses some details on what the <CODE>in random order</CODE> option for tables does instead of picking random numbers.  It's not intended to be a full course on randomness, pseudo-randomness or the interaction of random selections.  Nor does it explain <EM>all</EM> the details of the inner workings of PsyScript when handling tables.</P>
+
+<H3>Normal pseudo-randomness</H3>
+
+<P>Consider the following table:</P>
+
+<PRE>        table animals in random order
+<BR>          horse.jpeg
+<BR>          fox.jpeg
+<BR>          badger.jpeg
+<BR>          duck.jpeg
+<BR>          mouse.jpeg
+<BR>        end table</PRE>
+
+<P>If PsyScript used random numbers in the normal way to select items from this table it would pick a number from one to five each time it needed a row from the table.  Running a script which selected five animals would be very likely (p = 601/625 = .9616) to pick at least one row more than once.  This means that if you wanted to randomise the order in which stimuli were presented to your subject your subject would probably see at least one stimulus more than once.</P>
+
+<H3>PsyScript's pseudo-randomness</H3>
+
+<P>This is not what an experimenter actually wants so PsyScript doesn't work that way.  When faced with a table marked with 'in random order' it scrambles the order of the table each time it runs out of rows, then picks each entry of the scrambled table once each.  This means that you could use a ten-row table in an experiment which showed five stimuli each to two subjects and each row would be used exactly once.<P>
+
+<P>This policy is applied even under two difficult circumstances:</P>
+
+<UL><LI>many different lines of a script consult the same table
+<LI>one script is run many times for different subjects (i.e. the 'run again' selection is used by the experimenter)
+</UL>
+
+<P>In each case, PsyScript retains its notes about how each table has been used so far, making sure that an 'equal use' policy is applied over multiple uses of the table within one script, and over uses of the same script for different subjects within the same session.</P>
+
+<H3>Potential problem</H3>
+
+<P>This method isn't perfect for all cases, however.  Consider a case where the above table was used in an experiment which showed two stimuli to each subject.  The rows might be selected to give these results:</P>
+
+<PRE>        subject 1 sees
+<BR>          horse.jpeg
+<BR>          mouse.jpeg
+<BR>
+<BR>        subject 2 sees
+<BR>          duck.jpeg
+<BR>          badger.jpeg
+<BR>
+<BR>        subject 3 sees
+<BR>          fox.jpeg
+<BR>          ??</PRE>
+
+<P>This means that, in order to preserve the 'equal use' principle, the third subject would see <CODE>fox.jpeg</CODE> as their first stimulus.  Once the script has used that row it runs out of entries in the table and has to scramble the order of the table again.  When it does that, there's a chance (p=0.2) that <CODE>fox.jpeg</CODE> will turn out to be the first entry of the new random order.  So subject 3 will see the same stimulus twice.  This is probably not what the experimenter wants.</P>
+
+<P>To avoid this, when presenting an experiment which requires 'pick any n of m' use of a table, make sure that m is a multiple of n.  In other words, that selecting the rows for one subject will always fit neatly into one scrambling of the rows of the table.</P>
+
+</H3>See also</H3>
+<BR>
+<UL>
+<LI><A HREF="comGroupTable.html">tables and using them</A>
+</UL>
+
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

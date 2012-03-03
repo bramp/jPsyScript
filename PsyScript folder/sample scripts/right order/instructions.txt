@@ -1,0 +1,7 @@
+This experiment consists of five trials.  In each trial you'll be shown a series of five animals near the bottom of the display.  Please try to remember those animals and the order in which they appeared.  The animals will disappear after a short time.
+
+After a short pause another series of animals will appear along the top of the display.  It should include all the animals that appeared originally.  Please click on the animals in the order you saw them previously.  Your clicks are being timed, so please don't waste time with your attention elsewhere, but do take enough time to get the animals and their order correct.
+
+If you make a mistake in clicking please carry on with the other animals as best you can.  There is no way to 'undo' a click: we're interested in your first click, not a considered opinion.  We do not expect you to both the animals and their order correct in every trial.
+
+After your fifth set of animals, the experiment will end.  Thank you for participating.  Please click on the 'OK' button when you're ready to proceed.

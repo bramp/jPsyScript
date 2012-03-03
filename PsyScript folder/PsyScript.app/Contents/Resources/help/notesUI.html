@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Notes: user interface</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Notes: user interface</H1>
+<P>From the point of view of the user (not an experimental subject, but someone writing a script), PsyScript is just a text editor with a few extra features.  The main window looks like this:</P>
+
+<DIV align="center"><IMG ALT="picture of editor window" SRC="images/editorWindow.png"></DIV>
+
+<P>It's the same as a <CODE>TextEdit</CODE> window, just with four extra icons at the top.  Two of the icons are disabled (dim) because the file isn't saved yet.  All the normal editing functions work: you can use <CODE>New</CODE>, <CODE>Save</CODE>, <CODE>Save As...</CODE>, and the find and replace functions as you'd expect to in any text editor.</P>
+
+<P>The four icons function as follows:</P>
+
+<TABLE width="80%" align="center" border="1" cellspacing="0" cellpadding="3">
+<TR>
+<TH align="center"><IMG ALT="picture of editor window" SRC="images/iconLayout.png"></TH>
+<TD><P>Brings up a window allowing you to arrange image cells on the display.  You can move the cells around and drop file icons into them to make them display images.  When you have an arrangement that suits you, you can press a button and the application will automatically generate the commands that would be needed to achieve that arrangement.  It doesn't do anything you can't do by typing commands yourself, but it's sometimes faster or more convenient.</P>
+</TR><TR>
+<TH align="center"><IMG ALT="picture of editor window" SRC="images/iconCommands.png"></TH>
+<TD><P>Brings up a window showing all script commands.  If you've forgotten the syntax of a command you can use it to check what commands exist and look at an example of each command.  Click in the little circle next to a command and the application will insert that command into your script.  If multiple lines are associated with a command (e.g. the <CODE>if</CODE> and <CODE>repeat</CODE> commands) then all associated lines are inserted.</P>
+</TR><TR>
+<TH align="center"><IMG ALT="picture of editor window" SRC="images/iconCheckSyntax.png"></TH>
+<TD><P>Checks the syntax of the script, spotting misspelled commands and incorrectly used structures.  Reformats the script, improving spacing and indentation to make the script's structure clearer.  Identifies problems like two procedures having the same name, references to tables that don't exist, etc..  Does not spot all possible faults.  Does not inspect references to stimulus files to make sure that the files exist.</P></TD>
+</TR><TR>
+<TH align="center"><IMG ALT="picture of editor window" SRC="images/iconRun.png"></TH>
+<TD><P>Checks the syntax of the script as described above then, if no errors are found, runs the script.</P></TD>
+<TR>
+</TABLE>
+
+<P>For a more detailed introduction to the user interface and to the functioning of the above buttons, do the tutorials included with PsyScript (a good idea in any case).</P>
+
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

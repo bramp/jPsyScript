@@ -1,0 +1,63 @@
+-- PsyScript script format 1.0
+
+-- This script was written to find out if PsyScript could simulate
+-- typing into a field.  The only questionable bit is whether you
+-- can trap the return key.
+
+-- This is working towards trying to provide a 'serial 7s'-type
+-- test.
+
+proc main
+  -- $varA is accumulated keystrokes
+  -- $varN is the current number
+  -- $varD is the number of digits in the current number
+  -- $varP is current picture of appropriate number of stars
+  -- $varF is whether we're finished
+  
+  set $varA to $blank
+  set $varN to $blank
+  set $varD to 0
+  set $varP to 0 stars.png
+  
+  move cell P to (0,100)
+  show cell P
+  
+  set $varK to 0123456789
+  set $varK by appending $return
+  
+  start countdown from 30 seconds
+  
+  set $varF to 0
+  repeat until $varF is 1
+    load image $varP into cell P
+    
+    wait for a key in $varK
+    set $varA by appending $lastKey
+    if $lastKey is $return
+      set $varN to $blank
+      set $varD to 0
+     else
+      set $varN by appending $lastKey
+      if $varD is 0
+        set $varD to 1
+       else if $varD is 1
+        set $varD to 2
+       else if $varD is 2
+        set $varD to 3
+      end if
+    end if
+    set $varP to $varD
+		set $varP by appending $space
+    set $varP by appending  stars.png
+    
+    if $varN is 0
+      set $varF to 1
+    end if
+  end repeat
+  
+  log $varA
+  
+  log Next comes $return
+  log $return
+  log This should be on a new line.
+end proc

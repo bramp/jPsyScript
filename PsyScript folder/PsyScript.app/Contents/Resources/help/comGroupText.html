@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: text stimulus</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: text stimulus</H1>
+<P>A text box looks like this:</P>
+
+<DIV align="center"><IMG ALT="picture of text box" SRC="images/textBox.png"></DIV>
+
+<P>It presents a set piece of text in a scrollable panel, allowing the subject to read the text and click the 'OK' button when they're ready to continue.  It's intended for supplying instructions to the subject at the beginning or end of the experiment.</P>
+
+<P>When the <CODE>display text</CODE> command is used, the text is presented in a fixed font, font-size, font-style, colour, etc..</P>
+
+<P>When the <CODE>display rich text</CODE> command is used, the text is presented in whatever formatting, colours, and attributes are stored in the Rich Text file.</P>
+
+<P>The text is taken from a text file (see <A HREF="notesStimulusFiles.html">stimulus files</A>) which should have a name ending in '.txt', '.text' or '.rtf'.  The ideal application to use to prepare text files is 'TextEdit' which is included with every copy of OS X.  You can find it in the /Applications folder.  If you're preparing plain (unattributed) text, make sure TextEdit is working in 'Plain Text' mode: the item in the 'Format' menu should read 'Make Rich Text'.  If you're preparing a rich text file, do the opposite.</P>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>display text from file </B>theFile</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">theFile -- the file to obtain the text from</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Reads the text from the file and presents it in a scrollable panel.  Allows the subject to read it for as long as they like.  Waits for the subject to click on the 'OK' button, then removes the panel, allowing the script to continue.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>display text from file instructions.txt<BR>
+display text from file stimuli/thanksPleaseRaiseHand.text</TD>
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>display rich text from file </B>theFile</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">theFile -- the file to obtain the rich text from</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Reads rich text from the file and presents it in a scrollable panel.  Allows the subject to read it for as long as they like.  Waits for the subject to click on the 'OK' button, then removes the panel, allowing the script to continue.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>display rich text from file instructions.rtf<BR>
+display rich text from file $varT</TD>
+</TR></TABLE>
+
+<H3>Technical notes</H3>
+
+<P>You can use any form of text encoding and line-end encoding that TextEdit supports, including <a href="http://www.unicode.org/">Unicode</a> characters.</P>
+
+<P>Due to Word converting characters into its own internal format, even text <EM>prepared</EM> in Word then pasted into a text editor probably won't work correctly -- it's better to stay away from Word entirely.  This problem does not occur with other word processing programs like AppleWorks or Pages: you can prepare your text in them and save it in text or rich text format and it should work correctly.</P>
+
+</H3>See also</H3>
+<BR>
+<UL><LI><A HREF="notesStimulusFiles.html">stimulus files</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

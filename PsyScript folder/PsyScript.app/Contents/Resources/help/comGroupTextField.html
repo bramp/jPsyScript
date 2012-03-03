@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: the text field</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: the text field</H1>
+<P>The text field allows the subject to type in arbitrary text.  If the text field is being shown while the script is waiting for something, the subject can type into it.  You can include instructions by putting them into an image next to the text field.</P>
+<P>The text field starts off in an unknown position, with unknown contents.  Consequently it's a good idea to use the 'move text field' and 'set text field' commands before you use the 'show text field' command for the first time.</P>
+<P>To read the current contents of the text field use the '$textField' variable.  You can read the contents of the field even while it's hidden.</P>
+<P>One way to use the text field is like this:</P>
+
+<PRE bgcolor="#ffffff">      -- set up the 'OK' button
+<BR>      load OKButton.png into cell A
+<BR>      move cell A to (180,-150)
+<BR>      show cell A
+<BR>
+<BR>      -- set up the text field
+<BR>      move text field to (0,0) with size (300,30)
+<BR>      set text field to $blank
+<BR>      show text field
+<BR>
+<BR>      -- wait for a response and log it
+<BR>      wait for 60 seconds or a click in A
+<BR>      log $textField
+<BR>      log $lastClickTime
+<BR>
+<BR>      -- remove the clutter from the display
+<BR>      hide cell A
+<BR>      hide text field
+</PRE>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>move text field to (</B>x-pos<B>,</B>y-pos<B>) with size (</B>x-size<B>,</B>y-size<B>)</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">x-pos,y-pos -- position of text field in pixels, relative to the middle of the window<BR>
+x-size,y-size -- size of the text field in pixels</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Positions the text field in the window.  When a script starts running, the text field could be positioned anywhere so it's a good idea to use this command before you first use 'show text field'.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>move text field to (0,-150) with size (300,30)</TD>
+
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TD colspan="3"><B>set text field to </B>value<B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2">value -- the text to appear in the text field</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2">Changes the text in the text field.  When a script starts running, the text field could have any contents so use this before the first time you need to show the text field.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>set text field to $varT<BR>
+set text field to Type your answer here.</TD>
+
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TD colspan="3" width="10%"><B>show text field</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2">Makes the text field visible.  Does not change its position or contents.</TD>
+
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TD colspan="3" width="10%"><B>hide text field</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2">Makes the text field invisible.  Does not change its position or current setting.</TD>
+</TR>
+</TABLE>
+
+<BR>
+<H3>Technical notes</H3>
+
+<P>For some reason you need to hit the tab key or click inside the text field before you can type in it.  The program should be doing this automatically when the text field is shown but it's not happening.  This is a bug.</P>
+<P>You cannot change the font, font size, or colour of the text in the text box.  This is not a bug.</P>
+
+<H3>See also</H3>
+<BR>
+<UL><LI>log $textField
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

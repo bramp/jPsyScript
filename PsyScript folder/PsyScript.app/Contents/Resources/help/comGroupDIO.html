@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: Digital Input and Output</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: Digital Input and Output</H1>
+<P>PsyScript can currently talk only to two digital Input/Output cards: the 24 and 96 line DIO cards produced by <A HREF="http://www.ni.com/">National Instruments</A>.  These two cards work similarly, with the main difference between them being that the 24-line card has three ports while the 96-line card has 12 ports.  <em>The National Instruments DIO32HS card, while technically a DIO card, works differently and is not supported.</em></P>
+
+<P>One problem with talking to DIO cards in PsyScript is that PsyScript is a high level language and isn't very good at manipulating things at the bit level.  Consequently the notation used is slightly awkward.  The notation chosen expresses the bits as a string of ones and zeros.  The NI cards have 8-line ports, with the line numbered from 7 to 0.  To turn on just lines 2 and 3 of a port you'd write the string <CODE>00001100</CODE> to that port.  The string starts with the character for line 7 and ends with the character for line 0.</P>
+
+<P>Here's an example string to set the 8 lines of port 4:</P>
+<PRE bgcolor="#ffffff">        DIO NI write "00000101" to port 4</PRE>
+
+<P>That instruction sets lines 2 and 0 of port 4 to 'high' and all the other lines of port 4 to 'low'.  Here's a little code-fragment which logs values from port 1 every time you press a key until you press 'q' to quit it:</P>
+
+<PRE bgcolor="#ffffff">        wait for a key
+<BR>        
+<BR>        repeat while $lastKey is not q
+<BR>          DIO NI read $varD from port 1
+<BR>          log $varD
+<BR>          log $return
+<BR>        
+<BR>          wait for a key
+<BR>        end repeat</PRE>
+
+
+<P>A string you read from a card can be used the same way any other string can, including use in 'if' and 'log' commands.</P>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+<TD colspan="3" width="10%"><B>DIO NI read </B>variable<B> from port </B>port</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Reads the current state of the bits of the designated port into the nominated variable.  The resulting string will always have as many characters as there are lines on the port.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>DIO NI read $varC from port 3<BR>
+DIO NI read $varX from port $varP</TD>
+</TR></TABLE>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+<TD colspan="3" width="10%"><B>DIO NI write </B>string value<B> to port </B>port</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Writes the value to the designated port.  If the value doesn't have as many characters as there are lines on the port strange things may happen.  If there are any characters besides '0' and '1' in the string strange things may happen.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>DIO NI write $varC to port 0<BR>
+DIO NI write "01110000" to port $varP</TD>
+</TR></TABLE>
+
+<H3>Technical notes</H3>
+
+<UL><LI>If you have a particular piece of hardware you want support for, it won't hurt to ask me.  I'll need to borrow such a card for testing.
+
+<LI><P>For your convenience, here's a table showing which lines in/out of the card correspond to which bits of which ports:</P>
+
+<table align="center" border="1" cellspacing="0" cellpadding="2">
+<tr><th>Port</th><th>Bit 7</th><th>Bit 6</th><th>Bit 5</th><th>Bit 4</th><th>Bit 3</th><th>Bit 2</th><th>Bit 1</th><th>Bit 0</th></tr>
+<tr><th align="right">0</th><td align="right">47</td><td align="right">45</td><td align="right">43</td><td align="right">41</td><td align="right">39</td><td align="right">37</td><td align="right">35</td><td align="right">33</td></tr>
+<tr><th align="right">1</th><td align="right">31</td><td align="right">29</td><td align="right">27</td><td align="right">25</td><td align="right">23</td><td align="right">21</td><td align="right">19</td><td align="right">17</td></tr>
+<tr><th align="right">2</th><td align="right">15</td><td align="right">13</td><td align="right">11</td><td align="right">9</td><td align="right">7</td><td align="right">5</td><td align="right">3</td><td align="right">1</td></tr>
+<tr><th align="right">3</th><td align="right">48</td><td align="right">46</td><td align="right">44</td><td align="right">42</td><td align="right">40</td><td align="right">38</td><td align="right">36</td><td align="right">34</td></tr>
+<tr><th align="right">4</th><td align="right">32</td><td align="right">30</td><td align="right">28</td><td align="right">26</td><td align="right">24</td><td align="right">22</td><td align="right">20</td><td align="right">18</td></tr>
+<tr><th align="right">5</th><td align="right">16</td><td align="right">14</td><td align="right">12</td><td align="right">10</td><td align="right">8</td><td align="right">6</td><td align="right">4</td><td align="right">2</td></tr>
+<tr><th align="right">6</th><td align="right">97</td><td align="right">95</td><td align="right">93</td><td align="right">91</td><td align="right">89</td><td align="right">87</td><td align="right">85</td><td align="right">83</td></tr>
+<tr><th align="right">7</th><td align="right">81</td><td align="right">79</td><td align="right">77</td><td align="right">75</td><td align="right">73</td><td align="right">71</td><td align="right">69</td><td align="right">67</td></tr>
+<tr><th align="right">8</th><td align="right">65</td><td align="right">63</td><td align="right">61</td><td align="right">59</td><td align="right">57</td><td align="right">55</td><td align="right">53</td><td align="right">51</td></tr>
+<tr><th align="right">9</th><td align="right">98</td><td align="right">96</td><td align="right">94</td><td align="right">92</td><td align="right">90</td><td align="right">88</td><td align="right">86</td><td align="right">84</td></tr>
+<tr><th align="right">10</th><td align="right">82</td><td align="right">80</td><td align="right">78</td><td align="right">76</td><td align="right">74</td><td align="right">72</td><td align="right">70</td><td align="right">68</td></tr>
+<tr><th align="right">11</th><td align="right">66</td><td align="right">64</td><td align="right">62</td><td align="right">60</td><td align="right">58</td><td align="right">56</td><td align="right">54</td><td align="right">52</td></tr>
+</table>
+
+<P>Lines 50 &amp; 100 are ground, 49 & 99 are +5 Volts.  The above information is included here by kind permission of National Instruments.</P>
+</UL>
+
+</H3>See also</H3>
+<BR>
+<UL><LI><A HREF="comGroupIf.html">the 'if' command: testing a variable</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

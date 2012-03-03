@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Notes: conditions</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Notes: conditions</H1>
+<P>Three forms of command in PsyScript use conditions: <CODE>if</CODE>, <CODE>repeat while</CODE>, and <CODE>repeat until.</CODE></P>
+
+<P>There are just two forms of condition you can use in these commands: 'is' and 'is in'.  The first one checks to see if the two operands match exactly.  The second checks to see if the first operand can be found anywhere inside the second operand (a 'substring' check).  Here are some examples:</P>
+
+<TABLE align="center"><TR>
+<TD>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TH colspan="2">condition</TH><TH>result</TH></TR><TR>
+<TD align="right">L</TD><TD>is L</TD><TD align="center">true</TD></TR><TR>
+<TD align="right">F</TD><TD>is X</TD><TD align="center">false</TD></TR><TR>
+<TD align="right">L</TD><TD>is LLLL</TD><TD align="center">false</TD></TR><TR>
+<TD align="right">CD</TD><TD>is ABCDE</TD><TD align="center">false</TD></TR><TR>
+
+</TR></TABLE>
+</TD><TD></TD><TD>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TH colspan="2">condition</TH><TH>result</TH></TR><TR>
+<TD align="right">L</TD><TD>is in L</TD><TD align="center">true</TD></TR><TR>
+<TD align="right">F</TD><TD>is in X</TD><TD align="center">false</TD></TR><TR>
+<TD align="right">L</TD><TD>is in LLLL</TD><TD align="center">true</TD></TR><TR>
+<TD align="right">CD</TD><TD>is in ABCDE</TD><TD align="center">true</TD></TR><TR>
+
+</TR></TABLE>
+</TD>
+</TR></TABLE>
+
+<P>Of course, it's pointless testing the above conditions: you already know what the answer is going to be.  Instead your condition will probably involve at least one variable.  Here are some examples involving variables.  In these examples, imagine that the last click was on cell 'C' and that variable X contains 'ABCDE'.</P>
+
+<TABLE align="center"><TR>
+<TD>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TH colspan="2">condition</TH><TH>result</TH></TR><TR>
+<TD align="right">$lastClick</TD><TD>is C</TD><TD align="center">true</TD></TR><TR>
+<TD align="right">$lastClick</TD><TD>is CCCC</TD><TD align="center">false</TD></TR><TR>
+<TD align="right">D</TD><TD>is $varX</TD><TD align="center">false</TD></TR><TR>
+<TD align="right">$varX</TD><TD>is ABCDEFGHI</TD><TD align="center">false</TD></TR><TR>
+<TD align="right">$lastClick</TD><TD>is $varX</TD><TD align="center">false</TD></TR><TR>
+
+</TR></TABLE>
+</TD><TD></TD><TD>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+
+<TH colspan="2">condition</TH><TH>result</TH></TR><TR>
+<TD align="right">$lastClick</TD><TD>is in C</TD><TD align="center">true</TD></TR><TR>
+<TD align="right">$lastClick</TD><TD>is in CCCC</TD><TD align="center">true</TD></TR><TR>
+<TD align="right">D</TD><TD>is in $varX</TD><TD align="center">true</TD></TR><TR>
+<TD align="right">$varX</TD><TD>is in ABCDEFGHI</TD><TD align="center">true</TD></TR><TR>
+<TD align="right">$lastClick</TD><TD>is in $varX</TD><TD align="center">true</TD></TR><TR>
+
+</TR></TABLE>
+</TD>
+</TR></TABLE>
+
+<P>You can test <CODE>$lastClick</CODE>, <CODE>$lastKey</CODE>, and any of the variables <CODE>$varA</CODE> to <CODE>$varZ</CODE> in conditions, testing each one against a fixed piece of text or another variable.</P>
+
+</H3>See also</H3>
+<BR>
+<UL>
+<LI><A HREF="comGroupVar.html">variables and setting them</A>
+<LI><A HREF="comGroupIf.html">the 'if' command: responding to the response</A>
+<LI><A HREF="comGroupRepeat.html">repeating a piece of program</A>
+</UL>
+
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

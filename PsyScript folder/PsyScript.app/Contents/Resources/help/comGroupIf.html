@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: if</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: if</H1>
+
+<P>The simplest form of the <CODE>if</CODE> command is</P>
+<PRE bgcolor="#ffffff">        if &lt;condition&gt;
+<BR>            ...
+<BR>	end if</PRE>
+
+<P>In that form, the commands inside the block are executed only when the condition is true.  You can read about what you can use as the condition in the section on <A HREF="notesConditions.html">conditions</A>.  The next simplest form is</P>
+<PRE bgcolor="#ffffff">        if &lt;condition 1&gt;
+<BR>            ...
+<BR>        else if &lt;condition 2&gt;
+<BR>            ...
+<BR>	end if</PRE>
+
+<P>You can have as many conditions as you like:</P>
+<PRE bgcolor="#ffffff">        if &lt;condition 1&gt;
+<BR>            ...
+<BR>        else if &lt;condition 2&gt;
+<BR>            ...
+<BR>        else if &lt;condition 3&gt;
+<BR>            ...
+<BR>        else if &lt;condition 4&gt;
+<BR>            ...
+<BR>	end if</PRE>
+
+<P>and only one of the blocks of commands will be executed: whichever one follows the first true condition.  The <EM>last</EM> <CODE>else</CODE> of any set doesn't need to have an <CODE>if</CODE> attached to it:</P>
+<PRE bgcolor="#ffffff">        if &lt;condition 1&gt;
+<BR>            ...
+<BR>        else if &lt;condition 2&gt;
+<BR>            ...
+<BR>        else if &lt;condition 3&gt;
+<BR>            ...
+<BR>        else
+<BR>            ...
+<BR>	end if</PRE>
+
+<P>In this case, the commands in the last block will be executed if none of the conditions is true: using an <CODE>else</CODE> line means that whatever the conditions exactly one set of commands in the <CODE>if</CODE> block will be executed.
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>if </B>condition<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;....<BR>
+<B>[[else if </B>condition<B></B><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;....<B>]]</B><BR>
+<B>[else</B><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;....<B>]</B><BR>
+<B>end if</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">The commands between the <CODE>if</CODE> line and the <CODE>end if</CODE> line are executed if the condition is true.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>if $varL is A<BR>
+if $varL is in BCDE<BR>
+if c is in $varK</TD>
+</TR></TABLE>
+<BR>
+
+<H3>Technical notes</H3>
+
+<P><CODE>if</CODE> blocks can be nested to any number of levels (until you run out of memory).</P>
+
+</H3>See also</H3>
+<BR><UL>
+<LI><A HREF="notesConditions.html">conditions</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

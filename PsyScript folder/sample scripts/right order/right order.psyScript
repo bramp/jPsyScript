@@ -1,0 +1,277 @@
+-- PsyScript script format 1.0
+
+proc main
+  --background (10000,20000,30000)
+  
+  move cell A to (-400,50)
+  move cell B to (-250,50)
+  move cell C to (-100,50)
+  move cell D to (50,50)
+  move cell E to (200,50)
+  move cell F to (350,50)
+  
+  move cell G to (-300,-150)
+  move cell H to (-150,-150)
+  move cell I to (0,-150)
+  move cell J to (150,-150)
+  move cell K to (300,-150)
+  
+  display text from file instructions.txt
+  
+  log $subject
+  log $dateStamp
+  log $comments
+  log $return
+  
+  log shownOrder
+  log pauseTime
+  log clickedOrder
+  log same ?
+  log timeTaken
+  log $return
+  repeat using $varQ,$varR,$varS,$varT,$varU from 5 rows of cellOrders
+    call loadPicturesToUse
+    
+    call showInScrambledOrder
+    repeat using $varZ from 1 row of pauseTimes
+      wait for $varZ seconds
+    end repeat
+    call hideBottomRow
+    
+    wait for 5 seconds
+    
+    call showInNormalOrder
+    call showNotDoneYet
+    call acceptClicks
+  end repeat
+  
+  display text from file finished.txt
+end proc
+
+proc loadPicturesToUse
+  repeat using $varA from 1 row of animals
+  end repeat
+  repeat using $varB from 1 row of animals
+  end repeat
+  repeat using $varC from 1 row of animals
+  end repeat
+  repeat using $varD from 1 row of animals
+  end repeat
+  repeat using $varE from 1 row of animals
+  end repeat
+  repeat using $varF from 1 row of animals
+  end repeat
+end proc
+
+proc showInScrambledOrder
+  set $varL to $varQ
+  call pictureFromLetter
+  load image $varP into cell G
+  set $varL to $varR
+  call pictureFromLetter
+  load image $varP into cell H
+  set $varL to $varS
+  call pictureFromLetter
+  load image $varP into cell I
+  set $varL to $varT
+  call pictureFromLetter
+  load image $varP into cell J
+  set $varL to $varU
+  call pictureFromLetter
+  load image $varP into cell K
+  
+  show cell G
+  show cell H
+  show cell I
+  show cell J
+  show cell K
+end proc
+
+proc hideTopRow
+  hide cell A
+  hide cell B
+  hide cell C
+  hide cell D
+  hide cell E
+  hide cell F
+end proc
+
+proc hideBottomRow
+  hide cell G
+  hide cell H
+  hide cell I
+  hide cell J
+  hide cell K
+end proc
+
+proc showInNormalOrder
+  load image $varA into cell A
+  load image $varB into cell B
+  load image $varC into cell C
+  load image $varD into cell D
+  load image $varE into cell E
+  load image $varF into cell F
+  
+  show cell A
+  show cell B
+  show cell C
+  show cell D
+  show cell E
+  show cell F
+end proc
+
+proc showNotDoneYet
+  load image signs/notDone.png into cell G
+  load image signs/notDone.png into cell H
+  load image signs/notDone.png into cell I
+  load image signs/notDone.png into cell J
+  load image signs/notDone.png into cell K
+  
+  show cell G
+  show cell H
+  show cell I
+  show cell J
+  show cell K
+end proc
+
+proc acceptClicks
+  start timer
+  
+  -- $varL holds the cells which are left: haven't been clicked on yet
+  -- $varM holds the cells which have been clicked: in order of clicking
+  -- $varN holds the cell which is to be filled next
+  set $varL to ABCDEF
+  set $varM by removing $varM
+  set $varN to G
+  
+  repeat until $varN is none
+    load image signs/doMeNext.png into cell $varN
+    
+    -- ignore all clicks besides cells in the top row which haven't been
+    --     clicked on yet 
+    wait for a click in $varL
+    
+    set $varL by removing $lastClick
+    set $varM by appending $lastClick
+    
+    -- copy the picture you just clicked on to the bottom row
+    if $lastClick is A
+      load image $varA into cell $varN
+     else if $lastClick is B
+      load image $varB into cell $varN
+     else if $lastClick is C
+      load image $varC into cell $varN
+     else if $lastClick is D
+      load image $varD into cell $varN
+     else if $lastClick is E
+      load image $varE into cell $varN
+     else if $lastClick is F
+      load image $varF into cell $varN
+    end if
+    -- blank it out in the top row
+    load image signs/done.png into cell $lastClick
+    
+    -- figure out which cell in the bottom row should be filled next
+    if $varN is G
+      set $varN to H
+     else if $varN is H
+      set $varN to I
+     else if $varN is I
+      set $varN to J
+     else if $varN is J
+      set $varN to K
+     else if $varN is K
+      set $varN to none
+    end if
+    
+  end repeat
+  set $varY to $timer
+  
+  call hideTopRow
+  call hideBottomRow
+  call logOneTrial
+end proc
+
+proc logOneTrial
+  call composeCorrectOrder
+  log $varO
+  
+  log $varZ
+  log $varM
+  if $varM is $varO
+    log yes
+   else
+    log no
+  end if
+  log $varY
+  log $return
+end proc
+
+-------------------------------- utils ---------------------------------
+
+-- put a letter A to F in $varL and call this procedure
+-- and it will return in $varP which picture corresponds with that slot
+proc pictureFromLetter
+  if $varL is A
+    set $varP to $varA
+   else if $varL is B
+    set $varP to $varB
+   else if $varL is C
+    set $varP to $varC
+   else if $varL is D
+    set $varP to $varD
+   else if $varL is E
+    set $varP to $varE
+   else
+    set $varP to $varF
+  end if
+end proc
+
+-- $varO will hold the order the pictures were originally shown in
+proc composeCorrectOrder
+  -- next line is a little trick to blank out the variable
+  set $varO by removing $varO
+  
+  set $varO by appending $varQ
+  set $varO by appending $varR
+  set $varO by appending $varS
+  set $varO by appending $varT
+  set $varO by appending $varU
+end proc
+
+-------------------------------- tables ---------------------------------
+
+table animals in random order
+  animals/ram.png
+  animals/weasel.png
+  animals/crab.png
+  animals/puma.png
+  animals/butterfly.png
+  animals/dragonfly.png
+  animals/fox.png
+  animals/fish.png
+  animals/elephant.png
+  animals/hummingbird.png
+  animals/lizard.png
+  animals/llama.png
+end table
+
+table cellOrders in random order
+  A,B,C,D,E
+  A,B,C,E,F
+  A,B,D,E,F
+  A,C,B,D,E
+  B,C,D,E,F
+  C,B,A,D,E
+  A,F,C,E,B
+  A,B,E,C,F
+  E,C,B,D,A
+  F,C,D,E,B
+end table
+
+table pauseTimes in random order
+  3
+  5
+  8
+  12
+end table

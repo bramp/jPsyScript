@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: set</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: set</H1>
+<P>There are three forms of the <CODE>set</CODE> command:</P>
+<PRE bgcolor="#ffffff">        set &lt;variable&gt; to &lt;value&gt;
+<BR>	
+<BR>	set &lt;variable&gt; by appending &lt;value&gt;
+<BR>	
+<BR>	set &lt;variable&gt; by removing &lt;value&gt;</PRE>
+
+<P>In each case, the variable to be set is one of the twenty six variables indicated by <CODE>$varA</CODE> to <CODE>$varZ</CODE>.  It can be set to any of the following:</P>
+<UL>
+<LI>a fixed piece of text
+<LI>the current value of another of those twenty six variables, or
+<LI>any of these values as detailed in <A HREF="comGroupLog.html">logging values</A>:
+
+<P align="center">$dateStamp, $timeStamp, $space, $blank
+<BR>$lastClick, $lastClickTime, $lastKey, $lastKeyTime, $lastTime, $timer, $countdown, $slider, $textField</P>
+
+</UL>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>set </B>variable<B> to </B>value</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Replaces the existing value of the variable with a new one.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>set $varL to $slider<BR>
+set $varA to Hello, <BR>
+set $varB to $lastClick</TD>
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>set </B>variable<B> by appending </B>value</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Appends the text indicated by value to the end of the text currently in the variable.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>set $varC by appending $lastClick<BR>
+set $varA by appending $varN</TD>
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>set </B>variable<B> by removing </B>value</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Removes <EM>all</EM> occurences of the value from the contents of the variable.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>set $varL by removing $lastKey<BR>
+set $varA by removing polite</TD>
+</TR></TABLE>
+<BR>
+
+<H3>Technical notes</H3>
+
+<P>The <CODE>by removing</CODE> form removes <EM>all</EM> occurences of the value, not just the first one: <CODE>set QUEUEING by removing UE</CODE> would result in 'QING'.
+<P>To clear a variable (i.e. to make it blank) you can use <CODE>set $varV to $blank</CODE>.</P>
+<P>The variables you set are the same as the ones set by the 'repeat using' command.</P>
+<P>You can't set the values of <CODE>$timer</CODE>, <CODE>$countdown</CODE>, or <CODE>$slider</CODE> using this command.  Use their individual setting commands instead.</CODE>
+
+</H3>See also</H3>
+<BR><UL>
+<LI><A HREF="comGroupLog.html">logging values</A></LI>
+<LI><A HREF="comGroupTable.html">tables and using them</A></LI>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

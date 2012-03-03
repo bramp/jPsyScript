@@ -1,0 +1,50 @@
+abort|5
+skip ?|10,-401
+set ? to ?|15,-201,-2
+set ? by appending ?|17,-201,-2
+set ? by removing ?|18,-201,-2
+using new ? from ? row of ?|21,-301,-102,-303
+using new ? from ? rows of ?|21,-301,-102,-303
+using next ?|23,-401
+cond ? ? is ?|25,-401,-2,-3
+cond ? ? is in ?|27,-401,-2,-3
+DIO NI read ? from port ?|30,-201,-102
+DIO NI write ? to port ?|31,-201,-102
+log ?|35,-1
+start timer|40
+start countdown from ? second|41,-1
+start countdown from ? seconds|41,-1
+wait for ? second|45,-501
+wait for ? seconds|45,-501
+pause for ? second|45,-501
+pause for ? seconds|45,-501
+wait for a click in ?|50,-1
+wait for ? second or a click in ?|52, -501, -2
+wait for ? seconds or a click in ?|52, -501, -2]
+wait for a key in ?|55,-1
+wait for ? second or a key in ?|57, -501, -2
+wait for ? seconds or a key in ?|57, -501, -2
+flush key buffer|59
+move slider to (?,?) with size (?,?)|60,-101,-102,-103,-104
+set slider to ?|62,-1
+set slider to ? of ? to ?|63,-1,-2,-3
+show slider|65,1
+hide slider|65,0
+move text field to (?,?) with size (?,?)|66,-101,-102,-103,-104
+set text field to ?|67,-1
+show text field|68,1
+hide text field|68,0
+move cell ? to (?,?)|70,-1,-102,-103
+load image ? into cell ?|75,-1,-2
+show cell ?|80,-1,1
+hide cell ?|80,-1,0
+play sound ?|85,-1
+play sound ? without waiting|86,-1
+display text from file ?|90,-1
+display rich text from file ?|91,-1
+play movie ? at (?,?)|95,-1,-102,-103
+play movie ? at (?,?) without waiting|96,-1,-102,-103
+play movie ? at (?,?) with size (?,?)|95,-1,-102,-103
+set ? to the duration of movie ?|97,-201,-2
+background (?,?,?)|98,-101,-102,-103
+test|99

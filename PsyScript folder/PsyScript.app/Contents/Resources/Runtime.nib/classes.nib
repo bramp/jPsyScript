@@ -1,0 +1,47 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = ImageViewCell; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {theController = RuntimeWinController; }; 
+            SUPERCLASS = NSImageView; 
+        }, 
+        {
+            CLASS = RunWinDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {theController = RuntimeWinController; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                closeLogSheet = id; 
+                closeTextSheet = id; 
+                logSheetDoSave = id; 
+                logSheetDontSave = id; 
+            }; 
+            CLASS = RuntimeWinController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                saveSheetCommentsField = NSTextField; 
+                saveSheetExperimentField = NSTextField; 
+                saveSheetSubjectField = NSTextField; 
+                theLogSheetRunAgainMatrix = NSMatrix; 
+                theMovieView = NSMovieView; 
+                theSaveLogSheet = NSWindow; 
+                theSlider = NSSlider; 
+                theTextField = NSTextField; 
+                theTextSheet = NSWindow; 
+                theTextSheetTextView = NSTextView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = RuntimeWindow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {theController = RuntimeWinController; }; 
+            SUPERCLASS = NSWindow; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>PsyScript: an experiment generator.</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>PsyScript: an experiment generator.</H1>
+<P>This is the built-in help for PsyScript, an experiment generation package intended for use by psychologists and other researchers working in fields which involve running experiments on people. PsyScript is not a fully-featured programming language: a lot of effort was put into keeping it as simple as possible while providing features required for psychology experiments. PsyScript runs on any computer running OS X 10.3.9 or later.</P>
+
+<P>If you intend to use PsyScript to run actual experiments, please read the page of <A HREF="legal.html">legal</A> claims and disclaimers.</P>
+
+<P>PsyScript's homepage is <A HREF="http://www.psych.lancs.ac.uk/software/">http://www.psych.lancs.ac.uk/software/</A>.</P>
+
+<H3>Files provided</H3>
+<UL>
+<LI>The application (with built-in help pages)
+<LI>A one-page PDF file with a list of all commands on it
+<LI>Three tutorials as .PDF files
+<LI>Some sample scripts (and the stimuli they need to run)
+<LI>Some other sample stimuli
+</UL>
+
+<P>This application is written in Objective-C.  It was developed using Apple's free development tools, Xcode and Interface Builder.  HTML documentation was coded by hand.  The tutorial was prepared in <A HREF="http://www.apple.com/iwork/keynote/">Keynote</A>.  Pictures, diagrams and example stimulus images were prepared with <A HREF="http://www.apple.com/appleworks/">AppleWorks 6</A> (come on Apple, give us a drawing module for <A HREF="http://www.apple.com/iwork/">iWork</A> !).</P>
+
+<H3>Issues with upgrading from version 1 to version 2</H3>
+
+<UL>
+<LI>If, after upgrading from version 1.x, PsyScript is ignoring your preferences for the log file format, delete the preferences file.  It's <CODE>~/Library/Preferences/com.univ.lancs.PsyScript.plist</CODE>.</LI>
+</UL>
+
+<H3>Known bugs in version 2.0.0</H3>
+
+<UL>
+<LI>When you quit the program on a computer with the drivers for National Instruments cards loaded, it exits with error 1 instead of just calmly quitting.  This is due to a bug in the National Instruments drivers and does not indicate any real problem, or that anything bad has happened while you were using PsyScript.  NI tell me that the bug will be fixed soon.</LI>
+<LI>You need to hit the tab key or click inside the text field before you can type in it.  The program should be doing this automatically when the text field is shown.  I'll fix this bug when I understand why it's happening.</LI>
+<LI>The application and document icons are not very good.  If you think you can do better, email me.</LI>
+</UL>
+
+<H3>Syntax changes up to version 2.0.0</H3>
+
+<UL>
+<LI>The <CODE>load image</CODE> command no longer works without the word 'image'.</LI>
+<LI>The <CODE>play movie</CODE> command no longer accepts the syntax which includes a size for the movie area on the display.  The movie is always displayed at whatever size it's saved with.</LI>
+<LI>The <CODE>wait for ? second[s]</CODE> command has an alternative syntax <CODE>pause for ? second[s]</CODE>.</LI>
+<LI>A large number of new commands were added since version 1.5.  Take a look at the 'Commands' window or at the online help to see them.</LI>
+</UL>
+
+<H3>Revision history</H3>
+
+<TABLE>
+<TR><TH>Date</TH><TH>Version</TH><TH>Update</TH></TR>
+<TR><TH>2006/06/14</TH><TD align="center">2.0.1</TD><TD>Bugfix: pauses were interpreting wait-times as integers.  Thanks to R. Thomaschke for reporting bug.</TD></TR>
+<TR><TH>2006/04/06</TH><TD align="center">2.0</TD><TD>Conversion of all code from AppleScript Studio to Objective-C now complete.  Digital IO works.</TD></TR>
+<TR><TH>2006/03/13</TH><TD align="center">1.7</TD><TD>Digital IO is disabled: contact author for digital IO beta-test version.</TD></TR>
+<TR><TH>2005/11/??</TH><TD align="center">1.6</TD><TD>Various commands added including digital IO using National Instruments DIO cards.</TD></TR>
+<TR><TH>2005/08/20</TH><TD align="center">1.5</TD><TD>Large number of bugs fixed.  Now usable without help from the author.</TD></TR>
+<TR><TH>2004/??/??</TH><TD align="center">1.1</TD><TD>Runtime engine re-written in Objective-C, therefore faster and with more accurate timing.</TD></TR>
+<TR><TH>2003/??/??</TH><TD align="center">1.0</TD><TD>Initial AppleScript Studio release for in-house use only</TD></TR>
+</TABLE>
+
+<H3>Support</H3>
+
+<P>None.  PsyScript is provided as-is, with no support or assurances.  If I happen to have some spare time when you <A HREF="mailto:s.slavin.remove.these.four.words@lancaster.ac.uk">contact me</A>, I may be able to fix bugs or help you understand what the application's doing, however my department pays me to support them, not you.  Some time I hope to set up an email list or wiki to help coordinate peer-assistance and trouble-shooting.  Other than that, you're on your own.  Good luck.<P>
+
+<P align="right">Simon Slavin<BR>Lancaster University<BR>England</P>
+
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

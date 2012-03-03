@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: repeat</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: repeat</H1>
+<P>There are three forms of the <CODE>repeat</CODE> command:</P>
+<PRE bgcolor="#ffffff">        repeat while &lt;condition&gt;
+<BR>            ...
+<BR>	end repeat
+<BR>	
+<BR>	repeat until &lt;condition&gt;
+<BR>	    ...
+<BR>	end repeat
+<BR>	
+<BR>	repeat using &lt;variables&gt; from [&lt;number&gt; rows of] &lt;table&gt;
+<BR>	    ...
+<BR>	end repeat</PRE>
+
+<P>The first two work roughly the same as each other and are discussed on this page.  The last form is a way of accessing data from tables and is discussed in the section on <A HREF="comGroupTable.html">tables and using them</A>.</P>
+
+<P>The two forms discussed here both take a condition as a parameter.  You can read about what you can use as the condition in the section on <A HREF="notesConditions.html">conditions</A>.</P>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>repeat while </B>condition<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;....<BR>
+<B>end repeat</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">The commands between the <CODE>repeat while</CODE> line and the <CODE>end repeat</CODE> line are executed repeatedly until the condition becomes false.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>repeat while $varL is in ABC<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;....<BR>
+end repeat</TD>
+</TR></TABLE>
+<BR>
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>repeat until </B>condition<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;....<BR>
+<B>end repeat</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">The commands between the <CODE>repeat until</CODE> line and the <CODE>end repeat</CODE> line are executed repeatedly until the condition becomes true.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>wait for a click in ABC<BR>
+repeat until $lastClick is C<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;....<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;wait for a click in ABC<BR>
+end repeat</TD>
+</TR></TABLE>
+<BR>
+
+<H3>Technical notes</H3>
+
+<P><CODE>repeat</CODE> blocks can be nested to any number of levels (until you run out of memory).</P>
+<P>The test happens at the <EM>top</EM> of the block, not the bottom: if the condition is the wrong way around when the <CODE>repeat</CODE> command is encountered, the commands between those two lines are not executed even once.</P>
+
+</H3>See also</H3>
+<BR><UL>
+<LI><A HREF="notesConditions.html">conditions</A>
+<LI><A HREF="comGroupTable.html">tables and using them</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

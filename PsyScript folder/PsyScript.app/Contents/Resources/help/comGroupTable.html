@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: tables and using them</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: tables and using them</H1>
+<P>This page is about one form of the <CODE>repeat</CODE> command:</P>
+<PRE bgcolor="#ffffff">        repeat using &lt;variables&gt; from [&lt;number&gt; rows of] &lt;table&gt;
+<BR>	    ...
+<BR>	end repeat</PRE>
+
+<P>and how to use it.  This is the only command which provides any facility for randomness within a script (although sometimes it's not used for that).  Its job is to control a loop around a series of commands, setting some variables from a new line of a table just before it goes around the loop each time.  Here's a simple, non-random use of the command:</P>
+
+<PRE bgcolor="#ffffff">        proc main
+<BR>          ...
+<BR>          repeat using $varP,$varW from stimSupply
+<BR>	    load image $varP into cell A
+<BR>            wait for $varW seconds
+<BR>	  end repeat
+<BR>	  ...
+<BR>        end proc
+<BR>
+<BR>        table stimSupply
+<BR>          closedBox.pict,3
+<BR>          fullBox.pict,2
+<BR>          lightOut.pict,1
+<BR>          emptyBox.pict,4
+<BR>        end table</PRE>
+
+<P>The command executes the 'load', 'wait' commands four times (because that's how many lines there are in the table) using the values from the rows of the table in the order they occur in the table.  You can see that two variables were mentioned in the <CODE>repeat using</CODE> command and each row of the table has two values (separated by a comma) in it.</P>
+
+<P>Here's a different use for the same command:</P>
+
+<PRE bgcolor="#ffffff">        proc main
+<BR>          ...
+<BR>          repeat using $varA from 1 row of animals
+<BR>	    load image $varP into cell A
+<BR>            wait for a key
+<BR>            log $lastKey
+<BR>            log $return
+<BR>	  end repeat
+<BR>	  ...
+<BR>        end proc
+<BR>
+<BR>        table animals in random order
+<BR>          horse.jpeg
+<BR>          fox.jpeg
+<BR>          badger.jpeg
+<BR>          duck.jpeg
+<BR>          mouse.jpeg
+<BR>          elephant.png
+<BR>        end table</PRE>
+
+<P>This time only one variable is mentioned in the <CODE>repeat using</CODE> command and each row of the table has only one value on it.  The above script would show one stimulus (because the <CODE>repeat using</CODE> command has <CODE>1 row of</CODE> in).  It would pick a random stimulus because the <CODE>table</CODE> line has <CODE>in random order</CODE> at the end.</P>
+
+<P>Here's a final example script, using the same table as the previous one:</P>
+
+<PRE bgcolor="#ffffff">        proc main
+<BR>          ...
+<BR>          repeat using $varA from 4 rows of animals
+<BR>	    load image $varP into cell A
+<BR>            wait for a key
+<BR>            log $lastKey
+<BR>            log $return
+<BR>	  end repeat
+<BR>	  ...
+<BR>        end proc
+<BR>
+<BR>        table animals in random order
+<BR>          horse.jpeg
+<BR>          fox.jpeg
+<BR>          badger.jpeg
+<BR>          duck.jpeg
+<BR>          mouse.jpeg
+<BR>          elephant.png
+<BR>        end table</PRE>
+
+<P>This time the script would show four different stimuli out of the available six to the subject (because the <CODE>repeat using</CODE> command has <CODE>4 rows of</CODE> in).  It would use a random four rows from the table because the <CODE>table</CODE> line still has <CODE>in random order</CODE> at the end.</P>
+
+<P>There is pattern to randomness as implemented in PsyScript.  See <A HREF="notesRandomness.html">on the nature of randomness</A> for an explanation of how PsyScript manipulates the rows of the table so it can present the appearance of randomness without being properly random and messing-up your experiment.</P>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>repeat using </B>variables<B> from [</B>number<B> rows of] </B>table</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">variables -- comma-separated list of variables to set from the values in the table<BR>
+number -- the number of rows of the table to repeat with<BR>
+table -- the table to take the values from</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"><P>The commands between the <CODE>repeat</CODE> line and the <CODE>end repeat</CODE> line are executed &lt;number&gt; times or, if the '[&lt;number&gt;&nbsp;rows&nbsp;of]' part is omitted, once for each line in the table.  You can leave the 's' off of 'rows' if the number is 1, just because English is funny that way.</P>
+
+<P>For each row of the table used, the &lt;variables&gt; are loaded from the data in that row of the table &lt;table&gt;, then the lines between the <CODE>repeat</CODE> line and the <CODE>end repeat</CODE> line are executed.</P>
+
+<P>The indicated table can be marked to show that the rows in it should be consulted in random order.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>repeat using $varL,$valM,$varN from stimuli<BR>
+repeat using $varA from 1 rows of delayTable<BR>
+repeat using $varX,$varY from $varC rows of coordinates</TD>
+</TR></TABLE>
+
+<BR>
+
+<H3>Technical notes</H3>
+
+<UL>
+<LI><P>You can use many different tables in the same script (until you run out of memory).</P>
+<LI><P>You can refer to the same table in many different <CODE>repeat using</CODE> commands.</P>
+<LI><P><CODE>repeat</CODE> blocks can be nested to any number of levels (until you run out of memory).</P>
+<LI><P>The values in the table can be comma-delimited or tab-delimited but you must be consistent within each row.  If you've prepared a list of stimuli in a spreadsheet-like document you can usually copy &amp; paste the list straight into the script window.</P>
+<LI><P>Be careful not to add spaces after commas separating values in the table.  They will not be ignored.</P>
+<LI>The variables set by the <CODE>repeat using</CODE> command are the same ones set by the <CODE>set</CODE> command.
+</UL>
+
+</H3>See also</H3>
+<BR><UL>
+<LI><A HREF="notesRandomness.html">on the nature of randomness</A>
+<LI><A HREF="comGroupSet.html">setting variables</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

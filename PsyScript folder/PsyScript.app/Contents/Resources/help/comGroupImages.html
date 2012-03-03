@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: image stimuli</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: image stimuli</H1>
+<P>There are four commands associated with image stimuli and you have to use three of them before you can see your first image.  The four commands, in the order you'll probably use them, are these:</P>
+
+<PRE bgcolor="#ffffff">      move cell &lt;cell name&gt; to (&lt;x-pos&gt;,&lt;y-pos&gt;)
+<BR>      load image &lt;file name&gt; into cell &lt;cell name&gt;
+<BR>      show cell &lt;cell name&gt;
+<BR>      hide cell &lt;cell name&gt;
+</PRE>
+
+<P>You may never need to use the fourth command (all cells are automatically hidden when the experiment starts and finishes).</P>
+<P>Here is an example script:</P>
+
+<PRE bgcolor="#ffffff">    proc main
+<BR>      move cell A to (0,0)
+<BR>      load image frog.tiff into cell A
+<BR>      show cell A
+<BR>
+<BR>      wait for a key
+<BR>      play sound croak.aiff
+<BR>
+<BR>      hide cell A
+<BR>      log $lastKey
+<BR>      log $lastKeyTime
+<BR>    end proc
+</PRE>
+
+<P>There are two styles of handling images and they're useful for different types of experiment:</P>
+
+<UL><LI>start by showing all the cells you'll need; reposition them and load different things into them as the script progresses
+<LI>start by positioning all the cells and preloading images into the them, leaving them all hidden; as the script progresses use 'show cell' and 'hide cell' commands to show the right images at the right time
+</UL>
+
+<P>Which one of these styles, or how you mix them, will be governed by the requirements of your experiment and your programming preferences.  PsyScript was designed to be flexible enough to cope with many different requirements.
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>move cell </B>cell name<B> to (</B>x-pos<B>,</B>y-pos<B>)</B></TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">cell name -- the letter denoting the cell you want to move<BR>
+x-pos,y-pos -- position of the middle of the cell in pixels, relative to the middle of the window<BR>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"><P>Positions the cell in the window.  When a script starts running the cell could be positioned anywhere so it's a good idea to use this command before you first show a cell.</P>
+<P>You can move a cell whether it has an image loaded into it or not, and whether it's showing or hidden.</P>
+<P>You do not need to set the size of a cell: the cell is automatically set to the size of the image loaded into it.</P></TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>move cell A to (40,-10)<BR>
+move cell $lastClick to ($varX,$varY)</TD>
+</TR></TABLE>
+
+<BR>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+<TD colspan="3"><B>load image </B>file name<B> into cell </B>cell name</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">file name -- the name of the image file<BR>
+cell name -- the letter indicating the cell you want to show the image</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"><P>Loads an image file into a cell replacing any existing image in that cell.  Resizes the cell to match the size of the image.</P>
+<P>You can load images into a cell whether it's hidden or showing.</P>
+<P>If you haven't used <CODE>show cell</CODE> then you will see no change to the display.</P></TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>load image twoHands.gif into cell H<BR>
+load image asymmetric/animals/donkey.PICT into cell $varC<BR>
+load image $varP into cell A</TD>
+</TR></TABLE>
+
+<BR>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+<TD colspan="3" width="10%"><B>show cell </B>cell name</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"><P>Makes that cell, and thereby the image in that cell, visible.</P>
+<P>You can use this command even if you haven't yet put an image in the cell, but what PsyScript will actually draw to represent an empty cell is unpredictable.</P>
+<P>If you don't use <CODE>move cell</CODE> before using this command the cell may be in a strange position, even somewhere offscreen where you can't see it.</P>
+</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>show cell A<BR>
+show cell $varB</TD>
+</TR></TABLE>
+
+<BR>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3"><TR>
+<TD colspan="3" width="10%"><B>hide cell </B>cell name</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"><P>Makes the cell, and thereby the image in that cell, invisible.</P></TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>hide cell A<BR>
+hide cell $lastClick</TD>
+</TR></TABLE>
+
+<H3>Technical notes</H3>
+
+<P>This command can currently handle images stored in any of the formats suggested by these extensions:</P>
+<P align="center">PICT, jpg, jpeg, gif, tif, tiff, png, pdf</P>
+
+<P>Bear in mind that .PDF files are complicated and therefore slow to draw.  The fastest images to use are probably .png and PICT files.</P>
+
+<P>It's faster to use 'show cell' than it is to load an image.  It you really care about controling what your subject sees and for how long (down to the millisecond level) load your stimuli before you need to show them and use 'show cell' when you need them to appear.</P>
+
+<P>The amount of time the computer actually takes to show your images varies hugely depending on the characteristics of your computer, display, etc..  if you need to know precise details about timing run some tests on a working script using an external timer designed for the task such as a light-detecting cell connected to a millisecond timer.</P>
+
+<P>The author of PsyScript also wrote <A HREF="http://www.psych.lancs.ac.uk/software/">text2picts</A> which allows you to take a list of words and automatically make a picture for each one.  If you need to use words (or pseudo-words, or other text) as on-screen stimuli then you might find this useful.</P>
+
+</H3>See also</H3>
+<BR>
+<UL><LI><A HREF="notesStimulusFiles.html">stimulus files</A>
+</UL>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Notes: stimulus files</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Notes: stimulus files</H1>
+
+<P>This page discusses some details about your options for organising your script file(s) and stimulus file(s) in folders.</P>
+
+<P>PsyScript goes some way towards making it easy to keep track of the files you'll need for an experiment but it's possible to get yourself in a situation where you'll have to go through the script correcting every reference to a stimulus file.  Reading this page should ensure that you never have to do this.</P>
+
+<H3>Simple experiments</H3>
+
+<P>A simple experiment would probably involve one script and some stimulus files.  In this case it's simplest just to keep the script and the the associated stimulus files in the same folder.  I'd recommend that you create another folder (possibly inside the first one) and keep all the log files in that.</P>
+
+<P>If a script needs to refer to a stimulus file in the same folder as the script, all it needs to use is the file's name, like this:</P>
+
+<PRE>play sound clapping.snd</PRE>
+
+<H3>More complicated experiments</H3>
+
+<P>A more complicated experiment might involve one script and a number of different classes of stimulus files.  You might, for example, want to keep two kinds of stimuli in different folders.  In this case it's simplest to keep the two folders in the same folder as the script.  If you do this you can refer to files in the folder as follows:</P>
+
+<PRE>play sound withEcho/clapping.snd
+<BR>play sound withoutEcho/clapping.snd</PRE>
+
+<P>You use a '/' sign to separate the name of the folder from the name of the file inside it.  If you use this system then you can move your experiment files from one disk to another, or from one folder to another, and as long as you maintain the relationship between the places of the files (script in the folder which contains the folders where you keep your stimuli), your project will continue to work.</P>
+
+<P>You can extend this further:</P>
+
+<PRE>table faces
+<BR>  female/age 6 to 10/jenna.pict
+<BR>  female/age 3 to 5/cally.pict
+<BR>  male/age 6 to 10/gan.pict
+<BR>  male/age 3 to 5/avon.pict
+<BR>  male/age 3 to 5/vila.pict
+<BR>end table</PRE>
+
+<P>with as many levels of folder as you need.  You can use spaces in the names of folders and files.</P>
+
+<H3>Absolute locations</H3>
+
+<P>Under some circumstances you may need to refer to stimuli files which can't be 'below' the script in the folder hierarchy.  In this case you'll need to use the full path to the stimulus files.  You can spot paths like this because they <EM>begin</EM> with a '/':</P>
+
+<PRE>play movie /Volumes/Chatting/kids/age 3 to 5/BlakeAndSoolin.mov at (0,0) with size (200,200)</PRE>
+
+</H3>See also</H3>
+<BR>
+<UL>
+	<LI><A HREF="comGroupImages.html">images</A>
+	<LI><A HREF="comGroupSounds.html">sounds</A>
+	<LI><A HREF="comGroupMovies.html">movies</A>
+	<LI><A HREF="comGroupText.html">text</A>
+</UL>
+
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

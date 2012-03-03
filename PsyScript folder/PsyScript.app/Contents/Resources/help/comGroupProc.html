@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: procedures: grouping a sequence of commands</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: procedures: grouping a sequence of commands</H1>
+
+<P>Every script must have at least one procedure, called 'main':</P>
+<PRE bgcolor="#ffffff">        proc main
+<BR>            ...
+<BR>	end proc</PRE>
+
+<P>'proc' is short for 'procedure'.  The main procedure is the one that is called when you run the script.  However you can introduce other procedures and call them when you want:</P>
+<PRE bgcolor="#ffffff">        proc main
+<BR>            ...
+<BR>            call clearTheBoxes
+<BR>            ...
+<BR>            call initBoxes
+<BR>            ...
+<BR>            ...
+<BR>            call clearTheBoxes
+<BR>            ...
+<BR>	end proc
+<BR>
+<BR>        -- clears all four boxes and resets $varB to blank
+<BR>        proc clearTheBoxes
+<BR>            ...
+<BR>	end proc
+<BR>
+<BR>        -- sets all four boxes to question marks and sets $varB to ABCD
+<BR>        proc initBoxes
+<BR>            ...
+<BR>	end proc</PRE>
+
+<P>This can be useful if you have a series of commands you need to execute a number of times in a script: just type the commands in once and call the procedure whenever you need them.  It can also be useful when you have a complicated script and want to break it down into understandable chunks:
+
+<PRE bgcolor="#ffffff">        proc main
+<BR>            ...
+<BR>            wait for a click in LRNM
+<BR>            repeat until $lastClick is M
+<BR>                call reactToTickle
+<BR>                wait for a click in LRNM
+<BR>            end repeat
+<BR>            ...
+<BR>	end proc
+<BR>
+<BR>        proc reactToTickle
+<BR>            if $lastClick is L
+<BR>                call winkLeftEye
+<BR>            else if $lastClick is R
+<BR>                call winkRightEye
+<BR>            else if $lastClick is M
+<BR>                call grinMouth
+<BR>            end if
+<BR>	end proc
+<BR>
+<BR>        proc winkLeftEye
+<BR>            ...
+<BR>	end proc
+<BR>
+<BR>        proc winkRightEye
+<BR>            ...
+<BR>	end proc
+<BR>
+<BR>        proc grinMouth
+<BR>            ...
+<BR>	end proc</PRE>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>call </B>procedure name</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Executes all the commands in the procedure, then returns to the line after the <CODE>call</CODE> command.</TD>
+</TR></TABLE>
+<BR>
+
+<H3>Technical notes</H3>
+
+<P><CODE>call</CODE> commands can be nested until you run out of memory.</P>
+
+<P>There is no time-penalty for coding a series of commands as a procedure: call commands are optimised-out before the script is actually executed.</P>
+
+<P>You can't do things like <CODE>call $varP</CODE>.  If you think you need to do that, use an <CODE>if</CODE> block to decide which procedure to call.</P>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,70 @@
+-- PsyScript script format 1.0
+
+-- If you really care about timing you will have to run your own
+-- calibration tests on your own setup running your own version of
+-- the OS !
+
+-- PsyScript updates the display immediately before every 'wait'
+-- command.  This means that to force the display to update when the
+-- square is removed you can use 'wait for 0 seconds'.  PsyScript
+-- may also update the display at times between 'wait' commands.
+
+-- Here's my own script, used in conjunction with a photocell and a
+-- millisecond timer.  Thanks to Geoff Rushforth for deisgning and
+-- making the hardware.
+
+-- If you want to do testing like this and don't have access
+-- to a photocell and a millisecond timer, use a video camera and
+-- count the number of frames that the picture is shown in.
+
+proc main
+  background black
+  move cell A to (-310,-200)
+  load image whiteSquare.png into cell A
+  
+  -- call fixedTime
+  call keypressTime
+end proc
+
+-- This order of commands yields a $timer figure in the log which
+-- most closely resembles the timing given by the millisecond timer.
+proc fixedTime
+  wait for a key
+  wait for 2 seconds
+  show cell A
+  start timer
+  wait for 5 seconds
+  hide cell A
+  wait for 0 seconds
+  log $timer
+end proc
+
+-- five results from fixedTime, experiment done on 5/9/2003:
+-- wait time	iMac ms	iMac $timer		G4 ms		G4 $timer
+-- 2			2157			2164			2125			2106
+-- 2			2157			2163			2111			2106
+-- 2			2163			2163			2112			2105
+-- 2			2160			2165			2111			2106
+-- 2			2171			2165			2111			2114
+-- 5			5169			5176			5116			5113
+-- 5			5167			5180			5130			5113
+-- 5		 	5172			5179			5130			5114
+-- 5			5168			5184			5130			5114
+-- 5			5170			5179			5130			5113
+
+proc keypressTime
+  wait for 2 seconds
+  show cell A
+  wait for a key
+  hide cell A
+  wait for 0 seconds
+  log $lastKeyTime
+end proc
+
+-- five results from keypressTime, experiment done on 5/9/2003:
+-- iMac ms	iMac $lastKeyTime	G4 ms	G4 $lastKeyTime
+--	2480				2381		2565			2493
+--	9268				9153		3220			3139
+--	1988				1880		9472			9384
+--	333				224		1924			1848
+--	3812				3692		2752			2675

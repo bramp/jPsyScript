@@ -1,0 +1,30 @@
+-- PsyScript script format 1.0
+
+-- This script was written to test the various things you can do
+-- with the text field.
+
+proc main
+  move text field to (0,-100) with size (200,200)
+  
+  wait for 1 second
+  
+  show text field
+  
+  wait for 1 second
+  
+  set text field to You have 5 seconds you programmer.
+  
+  wait for 1 second
+  
+  move text field to (0,0) with size (200,200)
+  
+  wait for 1 second
+  
+  set text field to $blank
+  
+  wait for 5 seconds or a click in A
+  
+  hide text field
+  
+  log $textField
+end proc

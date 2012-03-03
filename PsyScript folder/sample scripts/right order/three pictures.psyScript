@@ -1,0 +1,20 @@
+-- PsyScript script format 1.0
+
+proc main
+  
+  move cell A to (-177,-7)
+  load image animals/crab.png into cell A
+  move cell B to (2,81)
+  load image animals/puma.png into cell B
+  move cell C to (185,-3)
+  load image animals/fish.png into cell C
+  
+  show cell A
+  show cell B
+  show cell C
+  
+  wait for a click in ABC
+  log $lastClick
+  log $lastClickTime
+  
+end proc

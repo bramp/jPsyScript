@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML>
+<HEAD>
+<TITLE>Command groups: background</TITLE>
+</HEAD>
+<BODY>
+
+<TABLE border="0" cellspacing="0" cellpadding="15">
+<TR><TD valign="top" bgcolor="#ccffcc">
+<H3>Contents</H3>
+<P><A HREF="index.html">introduction</A><BR>
+<A HREF="notesUI.html">user&nbsp;interface</A><BR>
+<A HREF="legal.html">legal&nbsp;notices</A></P>
+
+<H3>Commands</H3>
+<H4>Stimulus</H4>
+<P><A HREF="comGroupImages.html">images</A><BR>
+<A HREF="comGroupSounds.html">sounds</A><BR>
+<A HREF="comGroupMovies.html">movies</A><BR>
+<A HREF="comGroupText.html">text</A><BR>
+<A HREF="comGroupBackground.html">background</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Response </H4>
+<P><A HREF="comGroupWait.html">keys&nbsp;&amp;&nbsp;clicks</A><BR>
+<A HREF="comGroupWait.html">pausing</A><BR>
+<A HREF="comGroupIf.html">if</A><BR>
+<A HREF="comGroupSlider.html">slider</A><BR>
+<A HREF="comGroupTextField.html">text field</A><BR>
+<A HREF="comGroupTimer.html">timers</A><BR>
+<A HREF="comGroupLog.html">logging</A><BR>
+<A HREF="comGroupDIO.html">digital I/O</A></P>
+
+<H4>Other</H4>
+<P><A HREF="comGroupProc.html">procedures</A><BR>
+<A HREF="comGroupRepeat.html">repeating</A><BR>
+<A HREF="comGroupTable.html">tables</A><BR>
+<A HREF="comGroupSet.html">variables</A><BR>
+<A HREF="comGroupAbort.html">aborting</A></P>
+
+<H3>Notes</H3>
+<P><A HREF="notesStimulusFiles.html">stimulus&nbsp;files</A><BR>
+<A HREF="notesRandomness.html">randomness</A><BR>
+<A HREF="notesConditions.html">conditions</A></P>
+
+</TD><TD valign="top" bgcolor="#ccccff">
+
+<!-- START -->
+<H1>Command groups: background</H1>
+
+<P>If you do not explicitly set the background colour in a script you will see the default OS X window background, a pattern of grey and white stripes.  The <CODE>background</CODE> command allows you to set the background to of the experiment's window to any solid colour you like (but you can't use it to reset the background to the original stripe pattern, it has to be one solid colour).</P>
+
+<P>There are two forms of the background cammand.  The more flexible looks like this:</P>
+
+<CODE>background (<EM>red-component</EM>,<EM>green-component</EM>,<EM>blue-component</EM>)</CODE>
+
+<P>Each of the components is a number from 0 to 65535.  0 means that there is no element of that component in the mix, that that component is completely off; 65535 means that that component is full-on, as bright as it can be in the mix.  Here are some examples:</P>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3" align="center"><TR>
+
+<TH align="center">parameters</TH><TH>resulting colour</TH></TR><TR>
+<TD align="center">(0,0,0)</TD><TD align="center">black</TD></TR><TR>
+<TD align="center">(65535,65535,65535)</TD><TD align="center">bright white</TD></TR><TR>
+<TD align="center">(65535,0,0)</TD><TD align="center">bright red</TD></TR><TR>
+<TD align="center">(0,65535,0)</TD><TD align="center">bright green</TD></TR><TR>
+<TD align="center">(32768,32768,32768)</TD><TD align="center">mid-grey</TD></TR><TR>
+<TD align="center">(10000,20000,30000)</TD><TD align="center">a pleasant dark blue</TD>
+
+</TR></TABLE>
+
+<P>You can, of course, use variables for any of the components:<P>
+
+<CODE>  background ($varR,$varG,$varB)</CODE>
+
+<P>or even mix them:</P>
+
+<CODE>  background (23000,0,$varD)</CODE>
+
+<P>For your convenience some commonly-used colours have been given text names.  You <EM>cannot</EM> use variables containing these text values but they help to make simple scripts a bit easier to understand.  These are the pre-defined names:</P>
+
+<P align="center">black, dark grey, mid grey, light grey, white</P>
+
+<H3>Commands</H3>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>background (</B>red-component<B>,</B>green-component<B>,</B>blue-component<B>)</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"> red-component -- red brightness from 0 to 65535<BR>
+ green-component -- green brightness from 0 to 65535<BR>
+ blue-component -- blue brightness from 0 to 65535</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Sets the background colour of the experiment window.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>background (32768,32768,32768)<BR>
+background ($varA,0,0)</TD>
+</TR></TABLE>
+
+<P></P>
+
+<TABLE bgcolor="#ffffff" frame="none" rules="none" cellpadding="3">
+<TR>
+<TD colspan="3" width="10%"><B>background </B>predefined colour</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%"> predefined colour -- one of five pre-defined colours: white, light grey, mid grey, dark grey, or black</TD>
+</TR><TR>
+<TD width="10%"></TD><TD colspan="2" width="10%">Sets the background colour of the experiment window.</TD>
+</TR><TR>
+<TD width="10%"></TD><TD width="10%" valign="top">Examples:</TD><TD>background mid grey<BR>
+background black</TD>
+</TR></TABLE>
+
+<H3>Technical notes</H3>
+
+<P>Depending on incident light, how your display works (e.g. what display card and monitor you're using), how you have ColorSynch set up, and how you have the 'brightness' control set, the parameters you supply are converted into a 'real' colour for display.  Consequently, do not rely on a particular set of parameters representing a particular colour.</P>
+
+<P>Don't rely on colour <EM>brightnesses</EM> being conserved across colours.  For instance, (10000,0,0) will probably not be exactly as bright as (0,10000,0).  If you need chromatic precision you must use a properly calibrated setup.</P>
+
+<P>Don't rely on colour <EM>differences</EM> being conserved across the full range.  For instance, (10000,0,0) may be a certain amount dimmer than (15000,0,0), but (20000,0,0) may not be exactly the same amount brighter again.  If you need chromatic precision you must use a properly calibrated setup.</P>
+<!-- END -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                buttonCheckSyntax = id; 
+                buttonCommands = id; 
+                buttonLayout = id; 
+                buttonRun = id; 
+                closeNotificationSheet = id; 
+            }; 
+            CLASS = MyDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                theNotificationSheet = NSWindow; 
+                theNotificationTF = NSTextField; 
+                theNotificationTV = NSTextView; 
+                theTextView = NSTextView; 
+                theWindow = NSWindow; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}
